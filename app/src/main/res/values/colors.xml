@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_200">#ff7961</color>
+    <color name="primary_500">#f44336</color>
+    <color name="primary_700">#ba000d</color>
+
+    <color name="secundary_200">#ff7961</color>
+    <color name="secundary_500">#f44336</color>
+    <color name="secundary_700">#ba000d</color>
+
+    <color name="black">#FF121212</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="bug">#b0be45</color>
+    <color name="dark">#855f52</color>
+    <color name="dragon">#8271e3</color>
+    <color name="electric">#f7d04f</color>
+    <color name="fairy">#e6a0e6</color>
+    <color name="fighting">#a36141</color>
+    <color name="fire">#e84a41</color>
+    <color name="flying">#6b99ef</color>
+    <color name="ghost">#6e6dbb</color>
+    <color name="grass">#7bc45b</color>
+    <color name="ground">#dbb763</color>
+    <color name="ice">#80defa</color>
+    <color name="normal">#b0ae9f</color>
+    <color name="poison">#a35994</color>
+    <color name="psychic">#ed5aa1</color>
+    <color name="rock">#bcae71</color>
+    <color name="steel">#b3b2c4</color>
+    <color name="water">#46a0f8</color>
+
+</resources>
