@@ -45,7 +45,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
 
         setupPokemonList()
 
-        viewModel.responsePokemon.observe({ lifecycle }) {
+        viewModel.responsePokemon.observe(viewLifecycleOwner) {
             list.add(it.body()!!)
         }
 
@@ -114,15 +114,18 @@ class ListFragment : Fragment(), PokemonItemClickListener {
             }
             isLoading = false
             binding.inLoadingList.pbPaginationList.visibility = View.GONE
-
-
         }, 2000)
+
 
     }
 
     override fun onPokemonClicked(pokemon: Pokemon) {
         viewModel.pokemonSelec = pokemon
-        findNavController().navigate(R.id.action_listFragment_to_pokemonFragment)
+        findNavController().navigate(
+            R.id.action_listFragment_to_pokemonFragment, null,
+            NavOptions.Builder().setPopUpTo(R.id.pokemonFragment, true)
+                .build()
+        )
 
     }
 

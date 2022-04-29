@@ -9,15 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.carvalho.pokedex.MainViewModel
-import com.carvalho.pokedex.R
-import com.carvalho.pokedex.adapter.AdapterListagem
+import com.carvalho.pokedex.adapter.AdapterEvolution
 import com.carvalho.pokedex.databinding.FragmentEvolutionBinding
-import com.carvalho.pokedex.databinding.FragmentListBinding
 import com.carvalho.pokedex.model.evolution.chains.EvolutionChain
 import com.carvalho.pokedex.model.evolution.chains.link.ChainLink
 import com.carvalho.pokedex.model.pokemon.Pokemon
-import com.carvalho.pokedex.model.pokemon.type.PokemonType
 import com.carvalho.pokedex.model.species.PokemonSpecies
 
 
@@ -28,10 +26,15 @@ class EvolutionFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var evolutionTo: EvolutionChain
 
-    private lateinit var listSpecie: PokemonSpecies
+    private var listSpecie: PokemonSpecies? = null
     private var hierarchy = mutableListOf<String>()
     private var pokemonHierarchy = mutableListOf<Pokemon>()
+    private var hierarchyLegacy = mutableListOf<Pokemon>()
     private var keyForEvoluiton: String? = null
+
+    private var isLoading = false
+    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var pokemonAdapter: AdapterEvolution
 
 
     private var pokemonSelec: Pokemon? = null
@@ -44,49 +47,87 @@ class EvolutionFragment : Fragment() {
         binding = FragmentEvolutionBinding.inflate(layoutInflater, container, false)
 
         recoverData()
+        setupPokemonList()
 
-        return binding.root
-    }
-
-    private fun recoverData() {
-        pokemonSelec = viewModel.pokemonSelec
-
-        if (pokemonSelec != null) {
-            viewModel.getSpecieByName(pokemonSelec!!.name)
-        }
-        viewModel.responsePokemonSpecie.observe({ lifecycle }) {
-            listSpecie = it.body()!!
-            keyForEvoluiton =
-                listSpecie.evolution_chain.url[listSpecie.evolution_chain.url.length - 2].toString()
-            if (keyForEvoluiton != null) {
+        viewModel.responsePokemonSpecie.observe(viewLifecycleOwner) {
+            if (listSpecie != it.body()) {
+                listSpecie = it.body()!!
+                val urlStr =
+                    Regex("[0-9]+").findAll(listSpecie!!.evolution_chain.url)
+                        .map(MatchResult::value)
+                        .toList()
+                keyForEvoluiton = urlStr.last()
+                Log.v("Specie", it.body()!!.name)
                 viewModel.getEvolutionByID(keyForEvoluiton!!.toInt())
             }
         }
 
-        viewModel.responseEvolution.observe({ lifecycle }) {
+        viewModel.responseEvolution.observe(viewLifecycleOwner) {
             evolutionTo = it.body()!!
-            hierarchy.clear()
-
             evolutionHierarchy()
         }
 
-        viewModel.responsePokemonEvolution.observe({ lifecycle }) {
+        viewModel.responsePokemonEvolution.observe(viewLifecycleOwner) {
             pokemonHierarchy.add(it.body()!!)
             pokemonHierarchy.sortBy { pokemon -> pokemon.order }
             Log.v("List", it.body().toString())
         }
 
+        return binding.root
     }
 
-    private fun convertePokemon() {
+    private fun setupPokemonList() {
+        binding.rvEvolution.setHasFixedSize(true)
+        layoutManager = LinearLayoutManager(context)
+        binding.rvEvolution.layoutManager = layoutManager
+
+        getPage()
+    }
+
+    private fun getPage() {
+        isLoading = true
+        binding.inLoadingEvolution.pbPaginationList.visibility = View.VISIBLE
+
+        recoverData()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+
+            pokemonAdapter = AdapterEvolution(requireContext())
+            binding.rvEvolution.adapter = pokemonAdapter
+            val listApresentation = mutableListOf<Pokemon?>()
+            hierarchy.forEach {
+                listApresentation.add(pokemonHierarchy.find { pokemon -> pokemon.name.contains(it) })
+            }
+
+            pokemonAdapter.setList(listApresentation.distinctBy { it?.order })
+            Log.v("Pag1", listApresentation.toString())
+
+            isLoading = false
+            binding.inLoadingEvolution.pbPaginationList.visibility = View.GONE
+
+        }, 1500)
+
+    }
+
+
+    private fun recoverData() {
+        pokemonSelec = viewModel.pokemonSelec
+        listSpecie = null
+        Log.v("identi", pokemonSelec!!.name)
+
+        viewModel.getSpecieByName(pokemonSelec!!.name)
+
+    }
+
+    private fun convertPokemon() {
         hierarchy.forEach {
             viewModel.getPokemonByNameForEvolution(it)
         }
-
     }
 
     private fun evolutionHierarchy() {
         var support: ChainLink
+        hierarchy.clear()
 
         if (evolutionTo.chain.evolves_to.isNotEmpty()) {
             support = evolutionTo.chain
@@ -118,8 +159,8 @@ class EvolutionFragment : Fragment() {
         } else {
             hierarchy.add(evolutionTo.chain.species.name)
         }
-        convertePokemon()
         Log.d("Evo", hierarchy.toString())
+        convertPokemon()
     }
 
 }

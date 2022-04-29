@@ -25,13 +25,16 @@ class MainViewModel @Inject constructor(
     private val _responsePokemonSearch = MutableLiveData<Response<Pokemon>>()
     var responsePokemonSearch: LiveData<Response<Pokemon>> = _responsePokemonSearch
 
-    private val _responsePokemonSpecie = MutableLiveData<Response<PokemonSpecies>>()
+    private val _responsePokemonSpecie: MutableLiveData<Response<PokemonSpecies>> =
+        MutableLiveData<Response<PokemonSpecies>>()
     var responsePokemonSpecie: LiveData<Response<PokemonSpecies>> = _responsePokemonSpecie
 
-    private val _responseEvolution = MutableLiveData<Response<EvolutionChain>>()
+    private val _responseEvolution: MutableLiveData<Response<EvolutionChain>> =
+        MutableLiveData<Response<EvolutionChain>>()
     var responseEvolution: LiveData<Response<EvolutionChain>> = _responseEvolution
 
-    private val _responsePokemonEvolution = MutableLiveData<Response<Pokemon>>()
+    private var _responsePokemonEvolution: MutableLiveData<Response<Pokemon>> =
+        MutableLiveData<Response<Pokemon>>()
     var responsePokemonEvolution: LiveData<Response<Pokemon>> = _responsePokemonEvolution
 
     var pokemonSelec: Pokemon? = null
@@ -62,12 +65,13 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response = repository.getPokemonByName(name)
-                _responsePokemonEvolution.value = response
+                _responsePokemonEvolution!!.value = response
             } catch (e: Exception) {
                 Log.e("Err", e.message.toString())
             }
         }
     }
+
     fun getSpecieByName(name: String) {
         viewModelScope.launch {
             try {
@@ -79,12 +83,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
-
     fun getEvolutionByID(id: Int) {
         viewModelScope.launch {
             try {
                 val response = repository.getEvolutionByID(id)
-                _responseEvolution.value = response
+                _responseEvolution?.value = response
             } catch (e: Exception) {
                 Log.e("Err", e.message.toString())
             }
