@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.carvalho.pokedex.model.evolution.chains.EvolutionChain
+import com.carvalho.pokedex.model.pokemon.PokeTransfer
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.species.PokemonSpecies
 import com.carvalho.pokedex.repository.Repository
@@ -37,13 +38,30 @@ class MainViewModel @Inject constructor(
         MutableLiveData<Response<Pokemon>>()
     var responsePokemonEvolution: LiveData<Response<Pokemon>> = _responsePokemonEvolution
 
-    var pokemonSelec: Pokemon? = null
+    var pokeTransfer: PokeTransfer? = null
+
+
+    private val _pokemonSelec = MutableLiveData<Response<Pokemon>>()
+    var pokemonSelec: LiveData<Response<Pokemon>> = _pokemonSelec
+
+
 
     fun getPokemonByNumber(number: Int) {
         viewModelScope.launch {
             try {
                 val response = repository.getPokemonByNumber(number)
                 _responsePokemon.value = response
+            } catch (e: Exception) {
+                Log.e("Err", e.message.toString())
+            }
+        }
+    }
+
+    fun getPokemonByNameForPreview(name: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getPokemonByName(name)
+                _pokemonSelec.value = response
             } catch (e: Exception) {
                 Log.e("Err", e.message.toString())
             }

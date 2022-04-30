@@ -12,6 +12,7 @@ import com.carvalho.pokedex.R
 import com.carvalho.pokedex.adapter.helpers.PokemonItemClickListener
 import com.carvalho.pokedex.adapter.helpers.PokemonSetBackgroudColor
 import com.carvalho.pokedex.databinding.CardviewPreviewBinding
+import com.carvalho.pokedex.model.pokemon.PokeTransfer
 import com.carvalho.pokedex.model.pokemon.Pokemon
 
 
@@ -20,7 +21,7 @@ class AdapterListagem(
     var context: Context?
 ) : RecyclerView.Adapter<AdapterListagem.PokemonViewHolder>() {
 
-    var pokemon = emptyList<Pokemon>()
+    var pokemon = emptyList<PokeTransfer>()
 
     class PokemonViewHolder(var binding: CardviewPreviewBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -55,7 +56,7 @@ class AdapterListagem(
         return pokemon.size
     }
 
-    fun setList(list: List<Pokemon>) {
+    fun setList(list: List<PokeTransfer>) {
         pokemon = list.sortedBy {
             it.order
         }

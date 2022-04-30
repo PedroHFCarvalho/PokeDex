@@ -6,11 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.carvalho.pokedex.adapter.helpers.PokemonItemClickListener
 import com.carvalho.pokedex.databinding.CardviewSearchBinding
+import com.carvalho.pokedex.model.pokemon.PokeTransfer
 import com.carvalho.pokedex.model.pokemon.Pokemon
 
 class AdapterSearch (private val pokemonItemClickListener: PokemonItemClickListener): RecyclerView.Adapter<AdapterSearch.PokemonViewHolder>() {
 
-    var pokemon = emptyList<Pokemon>()
+    var pokemon = emptyList<PokeTransfer>()
 
     class PokemonViewHolder(var binding: CardviewSearchBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -41,7 +42,7 @@ class AdapterSearch (private val pokemonItemClickListener: PokemonItemClickListe
         return pokemon.size
     }
 
-    fun setList(list: List<Pokemon>) {
+    fun setList(list: List<PokeTransfer>) {
 
         pokemon = list.distinctBy {
             it.id

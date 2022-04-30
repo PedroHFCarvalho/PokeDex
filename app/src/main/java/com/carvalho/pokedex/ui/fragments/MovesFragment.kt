@@ -36,6 +36,8 @@ class MovesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMovesBinding.inflate(layoutInflater, container, false)
+
+        pokemonSelec = viewModel.pokemonSelec.value!!.body()
         recoverData()
 
         setupPokemonListAbility()
@@ -45,11 +47,8 @@ class MovesFragment : Fragment() {
     }
 
     private fun recoverData() {
-        pokemonSelec = viewModel.pokemonSelec
         listAbility.addAll(pokemonSelec!!.abilities)
         listMove.addAll(pokemonSelec!!.moves)
-
-
     }
 
     private fun setupPokemonListMoves() {

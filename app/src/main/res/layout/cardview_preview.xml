@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="5dp"
+    android:layout_marginStart="3dp"
     android:layout_marginTop="5dp"
+    android:layout_marginEnd="2dp"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="16dp"
     app:cardElevation="0dp">
@@ -17,7 +18,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/clBackground"
             android:layout_width="0dp"
-            android:layout_height="90dp"
+            android:layout_height="0dp"
             android:background="@color/bug"
             android:clipToOutline="true"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -25,8 +26,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:shapeAppearanceOverlay="@style/imageview_backgound_radius_all"
             app:srcCompat="@drawable/imageview_cardviewpreview" />
 
         <ImageView
@@ -50,7 +49,7 @@
             android:lines="1"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="?attr/colorOnPrimary"
+            android:textColor="@color/white"
             android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/imPokemonCard"

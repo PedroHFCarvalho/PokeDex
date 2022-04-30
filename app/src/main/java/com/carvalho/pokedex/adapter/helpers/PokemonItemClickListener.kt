@@ -1,7 +1,7 @@
 package com.carvalho.pokedex.adapter.helpers
 
-import com.carvalho.pokedex.model.pokemon.Pokemon
+import com.carvalho.pokedex.model.pokemon.PokeTransfer
 
 interface PokemonItemClickListener {
-    fun onPokemonClicked(pokemon: Pokemon)
+    fun onPokemonClicked(pokemon: PokeTransfer)
 }

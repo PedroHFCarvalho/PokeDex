@@ -2,7 +2,6 @@ package com.carvalho.pokedex.ui.fragments
 
 import android.os.Bundle
 import android.os.Handler
-import android.os.HandlerThread
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +18,7 @@ import com.carvalho.pokedex.R
 import com.carvalho.pokedex.adapter.AdapterListagem
 import com.carvalho.pokedex.adapter.helpers.PokemonItemClickListener
 import com.carvalho.pokedex.databinding.FragmentListBinding
-
+import com.carvalho.pokedex.model.pokemon.PokeTransfer
 import com.carvalho.pokedex.model.pokemon.Pokemon
 
 
@@ -35,7 +33,9 @@ class ListFragment : Fragment(), PokemonItemClickListener {
 
     private lateinit var pokemonAdapter: AdapterListagem
     private lateinit var layoutManager: GridLayoutManager
-    private var list: MutableSet<Pokemon> = mutableSetOf()
+    private lateinit var pokemon: Pokemon
+    private lateinit var pokeTransfer: PokeTransfer
+    private var list: MutableSet<PokeTransfer> = mutableSetOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +46,15 @@ class ListFragment : Fragment(), PokemonItemClickListener {
         setupPokemonList()
 
         viewModel.responsePokemon.observe(viewLifecycleOwner) {
-            list.add(it.body()!!)
+            pokemon = it.body()!!
+            pokeTransfer = PokeTransfer(
+                pokemon.id,
+                pokemon.name,
+                pokemon.order,
+                pokemon.sprites,
+                pokemon.types
+            )
+            list.add(pokeTransfer)
         }
 
         binding.rvListPokemon.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -119,8 +127,8 @@ class ListFragment : Fragment(), PokemonItemClickListener {
 
     }
 
-    override fun onPokemonClicked(pokemon: Pokemon) {
-        viewModel.pokemonSelec = pokemon
+    override fun onPokemonClicked(pokemon: PokeTransfer) {
+        viewModel.pokeTransfer = pokemon
         findNavController().navigate(
             R.id.action_listFragment_to_pokemonFragment, null,
             NavOptions.Builder().setPopUpTo(R.id.pokemonFragment, true)

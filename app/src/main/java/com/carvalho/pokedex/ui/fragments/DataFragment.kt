@@ -38,17 +38,18 @@ class DataFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDataBinding.inflate(layoutInflater, container, false)
+
+        pokemonSelec = viewModel.pokemonSelec.value!!.body()
         recoverData()
 
         setupPokemonListTypes()
         setupPokemonListStats()
 
-
         return binding.root
     }
 
     private fun recoverData() {
-        pokemonSelec = viewModel.pokemonSelec
+
         listTypes.addAll(pokemonSelec!!.types)
         listStats.addAll(pokemonSelec!!.stats)
         listAbility.addAll(pokemonSelec!!.abilities)

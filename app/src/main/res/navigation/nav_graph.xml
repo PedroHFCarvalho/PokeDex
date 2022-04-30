@@ -40,5 +40,8 @@
             app:destination="@id/listFragment"
             app:popUpTo="@id/pokemonFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_pokemonFragment_self"
+            app:destination="@id/pokemonFragment" />
     </fragment>
 </navigation>

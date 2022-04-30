@@ -3,25 +3,33 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/backgound_vetor.xml" value="0.1" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/ic_background.xml" value="0.1215" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.1515" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.2245" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/ic_logo_toolbar.xml" value="0.2295" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/imageview_cardviewpreview.xml" value="0.218" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/nav_bottom_background.xml" value="0.219" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/searchview_background.xml" value="0.1" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/toolbar_gradiente.xml" value="0.2065" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout-v31/cardview_preview.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_ability.xml" value="0.1685185185185185" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_evolution.xml" value="0.5" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_moves.xml" value="0.5" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_ability.xml" value="0.33" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_evolution.xml" value="0.33" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_moves.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_preview.xml" value="0.5" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_search.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_status.xml" value="0.34269662921348315" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_types.xml" value="0.7547169811320755" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_data.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_evolution.xml" value="0.33" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_list.xml" value="0.25" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_list.xml" value="0.22664359861591696" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_moves.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_pokemon.xml" value="0.33" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_search.xml" value="0.22" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/toolbar.xml" value="0.5" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_search.xml" value="0.2283464566929134" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/loading.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/navigation_bottom.xml" value="0.22" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/toolbar.xml" value="0.33" />
       </map>
     </option>
   </component>

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        //setupToolbar()
+
         setupBottomNavigation()
 
         navigationView.setOnItemSelectedListener { item ->
@@ -68,8 +68,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun setupToolbar() {
-        //setSupportActionBar(binding.inToolbar.toolbar)
-        //supportActionBar?.setDisplayShowTitleEnabled(false)
-    }
 }

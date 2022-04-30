@@ -20,7 +20,7 @@
             android:id="@+id/imBackground"
             android:layout_width="880dp"
             android:layout_height="880dp"
-            android:src="@drawable/background" />
+            android:src="@drawable/ic_background" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -54,7 +54,7 @@
         android:background="@drawable/searchview_backgroud"
         android:iconifiedByDefault="false"
         android:queryBackground="@android:color/transparent"
-        android:queryHint="Digite o Nome do Pokémon"
+        android:queryHint="Find your pokemon here"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

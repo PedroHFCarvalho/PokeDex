@@ -15,9 +15,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.R
+import com.carvalho.pokedex.adapter.AdapterListagem
 import com.carvalho.pokedex.adapter.AdapterSearch
 import com.carvalho.pokedex.adapter.helpers.PokemonItemClickListener
 import com.carvalho.pokedex.databinding.FragmentSearchBinding
+import com.carvalho.pokedex.model.pokemon.PokeTransfer
 import com.carvalho.pokedex.model.pokemon.Pokemon
 
 class SearchFragment : Fragment(), PokemonItemClickListener {
@@ -29,7 +31,9 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
     private lateinit var layoutManager: LinearLayoutManager
 
     private var isLoading = false
-    private var list: MutableList<Pokemon> = mutableListOf()
+    private lateinit var pokemon: Pokemon
+    private lateinit var pokeTransfer: PokeTransfer
+    private var list: MutableSet<PokeTransfer> = mutableSetOf()
 
 
     override fun onCreateView(
@@ -40,8 +44,16 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
 
         setupPokemonList()
 
-        viewModel.responsePokemonSearch.observe({ lifecycle }) {
-            list.addAll(listOf(it.body()!!))
+        viewModel.responsePokemonSearch.observe(viewLifecycleOwner) {
+            pokemon = it.body()!!
+            pokeTransfer = PokeTransfer(
+                pokemon.id,
+                pokemon.name,
+                pokemon.order,
+                pokemon.sprites,
+                pokemon.types
+            )
+            list.add(pokeTransfer)
         }
 
         binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -80,28 +92,41 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
 
 
         Handler(Looper.myLooper() ?: return).postDelayed({
+
             if (::pokemonAdapter.isInitialized) {
-                pokemonAdapter.setList(list)
-                if (list.isEmpty()) {
-                    Toast.makeText(context, "Não foi encontrado nada", Toast.LENGTH_SHORT).show()
+                if (binding.rvSearches.adapter == null) {
+                    pokemonAdapter = AdapterSearch(this)
+                    binding.rvSearches.adapter = pokemonAdapter
+                    pokemonAdapter.setList(list.sortedBy { it.name })
+                    if (list.isEmpty()) {
+                        Toast.makeText(context, "Não foi encontrado nada", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    Log.e("true", "true")
+
+                } else {
+
+                    pokemonAdapter.setList(list.sortedBy { it.name })
+                    Log.v("Pag1", list.toString())
+
                 }
-                Log.v("Sucess", list.toString())
             } else {
                 pokemonAdapter = AdapterSearch(this)
                 binding.rvSearches.adapter = pokemonAdapter
-                pokemonAdapter.setList(list)
+                pokemonAdapter.setList(list.distinctBy { it.name })
                 if (list.isEmpty()) {
                     Toast.makeText(context, "Não foi encontrado nada", Toast.LENGTH_SHORT).show()
                 }
+                Log.v("Pag2", list.toString())
             }
             isLoading = false
             binding.inLoadingSearch.pbPaginationList.visibility = View.GONE
-        }, 2000)
+        }, 1000)
 
     }
 
-    override fun onPokemonClicked(pokemon: Pokemon) {
-        viewModel.pokemonSelec = pokemon
+    override fun onPokemonClicked(pokemon: PokeTransfer) {
+        viewModel.pokeTransfer = pokemon
         findNavController().navigate(R.id.action_searchFragment_to_pokemonFragment)
     }
 }

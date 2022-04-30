@@ -11,6 +11,7 @@ import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.adapter.AdapterAppPager
 import com.carvalho.pokedex.adapter.helpers.PokemonSetBackgroudColor
 import com.carvalho.pokedex.databinding.FragmentPokemonBinding
+import com.carvalho.pokedex.model.pokemon.PokeTransfer
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.pokemon.stat.PokemonStat
 import com.carvalho.pokedex.model.pokemon.type.PokemonType
@@ -25,6 +26,8 @@ class PokemonFragment : Fragment() {
     private var listTypes: MutableList<PokemonType> = mutableListOf()
     private var listStats: MutableList<PokemonStat> = mutableListOf()
     private val titles = arrayListOf("Base", "Moves", "Evolution")
+
+    private var pokeTransfer: PokeTransfer? = null
     private var pokemonSelec: Pokemon? = null
 
 
@@ -33,17 +36,20 @@ class PokemonFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPokemonBinding.inflate(layoutInflater, container, false)
-        recoverData()
-        setupTabLayout()
+
+        viewModel.getPokemonByNameForPreview(viewModel.pokeTransfer!!.name)
+
+        viewModel.pokemonSelec.observe(viewLifecycleOwner) {
+            pokemonSelec = it.body()
+            recoverData()
+            setupTabLayout()
+        }
 
 
         return binding.root
     }
 
     private fun recoverData() {
-        pokemonSelec = viewModel.pokemonSelec
-        listTypes.addAll(pokemonSelec!!.types)
-        listStats.addAll(pokemonSelec!!.stats)
 
         if (pokemonSelec != null) {
             binding.tvName.text = pokemonSelec?.name!!.replaceFirstChar { it.uppercase() }
