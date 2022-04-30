@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.adapter.AdapterAbility
 import com.carvalho.pokedex.adapter.AdapterMoves
@@ -20,8 +21,6 @@ class MovesFragment : Fragment() {
 
     private lateinit var binding: FragmentMovesBinding
     private val viewModel: MainViewModel by activityViewModels()
-
-    private lateinit var layoutManagerLinear: LinearLayoutManager
 
     private var listAbility: MutableList<PokemonAbility> = mutableListOf()
     private var listMove: MutableList<PokemonMove> = mutableListOf()
@@ -37,30 +36,56 @@ class MovesFragment : Fragment() {
     ): View? {
         binding = FragmentMovesBinding.inflate(layoutInflater, container, false)
 
-        pokemonSelec = viewModel.pokemonSelec.value!!.body()
-        recoverData()
+        getContentsForMoves()
+        recoverDataAbilityAndMoves()
 
-        setupPokemonListAbility()
-        setupPokemonListMoves()
+        setupLayoutAbility()
+        setupLayoutMoves()
 
         return binding.root
     }
 
-    private fun recoverData() {
+    private fun getContentsForMoves() {
+        pokemonSelec = viewModel.pokemonSelec.value?.body()
+    }
+
+    private fun recoverDataAbilityAndMoves() {
         listAbility.addAll(pokemonSelec!!.abilities)
         listMove.addAll(pokemonSelec!!.moves)
     }
 
-    private fun setupPokemonListMoves() {
-        binding.rvMoves.setHasFixedSize(true)
-        layoutManagerLinear = LinearLayoutManager(context)
-        binding.rvMoves.layoutManager = layoutManagerLinear
+    private fun setupLayouts(
+        recyclerView: RecyclerView,
+        layoutManager: RecyclerView.LayoutManager
+    ) {
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = layoutManager
+    }
+
+    private fun setupLayoutMoves() {
+        setupLayouts(binding.rvMoves, LinearLayoutManager(context))
         getPageMoves()
     }
 
+    private fun setupLayoutAbility() {
+        setupLayouts(binding.rvAbility, LinearLayoutManager(context))
+        getPageAbility()
+    }
+
+    private fun getPageAbility() {
+        if (::pokemonAdapterAbility.isInitialized) {
+            pokemonAdapterAbility.setList(listAbility)
+        } else {
+            pokemonAdapterAbility = AdapterAbility(requireContext())
+            binding.rvAbility.adapter = pokemonAdapterAbility
+            pokemonAdapterAbility.setList(listAbility)
+        }
+        for (i in 0..listAbility.size) {
+            AdapterAbility(requireContext()).setList(listAbility)
+        }
+    }
+
     private fun getPageMoves() {
-
-
         if (::pokemonAdapterMove.isInitialized) {
             pokemonAdapterMove.setList(listMove)
         } else {
@@ -71,32 +96,5 @@ class MovesFragment : Fragment() {
         for (i in 0..listMove.size) {
             AdapterMoves(requireContext()).setList(listMove)
         }
-
-
     }
-
-
-    private fun setupPokemonListAbility() {
-        binding.rvAbility.setHasFixedSize(true)
-        layoutManagerLinear = LinearLayoutManager(context)
-        binding.rvAbility.layoutManager = layoutManagerLinear
-        getPageAbility()
-    }
-
-    private fun getPageAbility() {
-
-        if (::pokemonAdapterAbility.isInitialized) {
-            pokemonAdapterAbility.setList(listAbility)
-            //Log.v("Sucess", listAbility.toString())
-        } else {
-            pokemonAdapterAbility = AdapterAbility(requireContext())
-            binding.rvAbility.adapter = pokemonAdapterAbility
-            pokemonAdapterAbility.setList(listAbility)
-        }
-        for (i in 0..listAbility.size) {
-            AdapterAbility(requireContext()).setList(listAbility)
-            Log.d("Succs", i.toString())
-        }
-    }
-
 }

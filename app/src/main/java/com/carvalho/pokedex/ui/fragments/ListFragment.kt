@@ -41,8 +41,8 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     ): View? {
         binding = FragmentListBinding.inflate(layoutInflater, container, false)
 
-        setupLayout()
-        getContents()
+        setupLayoutList()
+        getContentsForList()
         includeContentsInPage()
 
         viewModel.responsePokemon.observe(viewLifecycleOwner) {
@@ -80,13 +80,42 @@ class ListFragment : Fragment(), PokemonItemClickListener {
         }, 2000)
     }
 
-    private fun isLoadingTrue() {
-        isLoading = true
-        binding.inLoadingList.pbPaginationList.visibility = View.VISIBLE
+    private fun setAdapter() {
+        pokemonAdapter = AdapterListagem(this, context)
+        binding.rvListPokemon.adapter = pokemonAdapter
     }
-    private fun isLoadingFalse() {
-        isLoading = false
-        binding.inLoadingList.pbPaginationList.visibility = View.GONE
+
+    private fun setListInAdapter() {
+        pokemonAdapter.setList(list.toList())
+    }
+
+    private fun setupLayoutList() {
+        binding.rvListPokemon.setHasFixedSize(true)
+        layoutManager = GridLayoutManager(context, 3)
+        binding.rvListPokemon.layoutManager = layoutManager
+    }
+
+    private fun getNextPage() {
+        val visibleItemCont = layoutManager.childCount
+        val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+        val total = pokemonAdapter.itemCount
+
+        if (!isLoading) {
+            if ((visibleItemCont + pastVisibleItem) >= total) {
+                page++
+                getContentsForList()
+                includeContentsInPage()
+            }
+        }
+    }
+
+    private fun getContentsForList() {
+        val start = ((page) * limite) + 1
+        val end = (page + 1) * limite
+
+        for (i in start..end) {
+            viewModel.getPokemonByNumber(i)
+        }
     }
 
     private fun buildPokeTransfer(pokemon: Pokemon): PokeTransfer {
@@ -99,42 +128,13 @@ class ListFragment : Fragment(), PokemonItemClickListener {
         )
     }
 
-    private fun getNextPage() {
-        val visibleItemCont = layoutManager.childCount
-        val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-        val total = pokemonAdapter.itemCount
-
-        if (!isLoading) {
-            if ((visibleItemCont + pastVisibleItem) >= total) {
-                page++
-                getContents()
-                includeContentsInPage()
-            }
-        }
+    private fun isLoadingTrue() {
+        isLoading = true
+        binding.inLoadingList.pbPaginationList.visibility = View.VISIBLE
     }
-
-    private fun getContents() {
-        val start = ((page) * limite) + 1
-        val end = (page + 1) * limite
-
-        for (i in start..end) {
-            viewModel.getPokemonByNumber(i)
-        }
-    }
-
-    private fun setAdapter() {
-        pokemonAdapter = AdapterListagem(this, context)
-        binding.rvListPokemon.adapter = pokemonAdapter
-    }
-
-    private fun setListInAdapter() {
-        pokemonAdapter.setList(list.toList())
-    }
-
-    private fun setupLayout() {
-        binding.rvListPokemon.setHasFixedSize(true)
-        layoutManager = GridLayoutManager(context, 3)
-        binding.rvListPokemon.layoutManager = layoutManager
+    private fun isLoadingFalse() {
+        isLoading = false
+        binding.inLoadingList.pbPaginationList.visibility = View.GONE
     }
 
     override fun onPokemonClicked(pokemon: PokeTransfer) {

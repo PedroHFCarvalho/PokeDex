@@ -34,13 +34,11 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
     private var listSpecie: PokemonSpecies? = null
     private var hierarchy = mutableListOf<String>()
     private var pokemonHierarchy = mutableListOf<PokeTransfer>()
-    private var keyForEvoluiton: String? = null
 
     private var isLoading = false
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var pokemonAdapter: AdapterEvolution
 
-    private lateinit var pokeTransfer: PokeTransfer
     private var pokemonSelec: Pokemon? = null
 
     override fun onCreateView(
@@ -50,24 +48,16 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
 
         binding = FragmentEvolutionBinding.inflate(layoutInflater, container, false)
 
+        setupLayoutList()
+
         viewModel.pokemonSelec.observe(viewLifecycleOwner) {
-            pokemonSelec = it.body()
-            recoverData()
-            setupPokemonList()
+            setPokemon(it.body()!!)
+            recoverDataPokemonAndSpecie()
+            includeContentsInPageEvolution()
         }
 
-
         viewModel.responsePokemonSpecie.observe(viewLifecycleOwner) {
-            if (listSpecie != it.body()) {
-                listSpecie = it.body()!!
-                val urlStr =
-                    Regex("[0-9]+").findAll(listSpecie!!.evolution_chain.url)
-                        .map(MatchResult::value)
-                        .toList()
-                keyForEvoluiton = urlStr.last()
-                Log.v("Specie", it.body()!!.name)
-                viewModel.getEvolutionByID(keyForEvoluiton!!.toInt())
-            }
+            getEvolutionBySpecie(it.body()!!)
         }
 
         viewModel.responseEvolution.observe(viewLifecycleOwner) {
@@ -76,73 +66,99 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
         }
 
         viewModel.responsePokemonEvolution.observe(viewLifecycleOwner) {
-            pokemonSelec = it.body()!!
-            pokeTransfer = PokeTransfer(
-                pokemonSelec!!.id,
-                pokemonSelec!!.name,
-                pokemonSelec!!.order,
-                pokemonSelec!!.sprites,
-                pokemonSelec!!.types
-            )
-            pokemonHierarchy.add(pokeTransfer)
-
+            setPokemon(it.body()!!)
+            pokemonHierarchy.add(buildPokeTransfer(it.body()!!))
             pokemonHierarchy.sortBy { pokemon -> pokemon.order }
-            Log.v("List", it.body().toString())
         }
 
         return binding.root
     }
 
-    private fun setupPokemonList() {
+    private fun getEvolutionBySpecie(pokemonSpecie: PokemonSpecies) {
+
+        if (listSpecie != pokemonSpecie) {
+            listSpecie = pokemonSpecie
+            val urlStr =
+                Regex("[0-9]+").findAll(listSpecie!!.evolution_chain.url)
+                    .map(MatchResult::value)
+                    .toList()
+            val id = urlStr.last()
+            getContentForEvolution(id.toInt())
+        }
+    }
+
+    private fun getContentForEvolution(id: Int) {
+        viewModel.getEvolutionByID(id)
+    }
+
+    private fun setPokemon(pokemon: Pokemon) {
+        pokemonSelec = pokemon
+    }
+
+    private fun buildPokeTransfer(pokemon: Pokemon): PokeTransfer {
+        return PokeTransfer(
+            pokemon.id,
+            pokemon.name,
+            pokemon.order,
+            pokemon.sprites,
+            pokemon.types
+        )
+    }
+
+    private fun setupLayoutList() {
         binding.rvEvolution.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
         binding.rvEvolution.layoutManager = layoutManager
-
-        getPage()
     }
 
-    private fun getPage() {
-        isLoading = true
+    private fun includeContentsInPageEvolution() {
+        isLoadingTrue()
         binding.tvNotEvolution.visibility = View.INVISIBLE
-        binding.inLoadingEvolution.pbPaginationList.visibility = View.VISIBLE
-
-        recoverData()
+        recoverDataPokemonAndSpecie()
 
         Handler(Looper.getMainLooper()).postDelayed({
 
-            pokemonAdapter = AdapterEvolution(requireContext(), this)
-            binding.rvEvolution.adapter = pokemonAdapter
+            setAdapterEvolution()
 
-            val listApresentation = mutableListOf<PokeTransfer?>()
+            val listPresentation = listDistinctByHierarchy()
 
-            hierarchy.forEach {
-                listApresentation.add(pokemonHierarchy.find { pokemon -> pokemon.name.contains(it) })
+            if (listPresentation.size == 1 || listPresentation.isNullOrEmpty()) {
+                notHasEvolution()
             }
-            if (listApresentation.size == 1 || listApresentation.isNullOrEmpty()) {
-                binding.tvNotEvolution.visibility = View.VISIBLE
-            }
-            pokemonAdapter.setList(listApresentation.distinctBy { it?.order } as List<PokeTransfer?>)
-            Log.v("Pag1", listApresentation.toString())
 
-            isLoading = false
-            binding.inLoadingEvolution.pbPaginationList.visibility = View.GONE
-            listApresentation.clear()
-        }, 1500)
+            pokemonAdapter.setList(listPresentation.toList())
+
+            isLoadingFalse()
+            listPresentation.clear()
+        }, 1000)
 
     }
 
+    private fun notHasEvolution() {
+        binding.tvNotEvolution.visibility = View.VISIBLE
+    }
 
-    private fun recoverData() {
+    private fun listDistinctByHierarchy(): MutableList<PokeTransfer?> {
+        val listPresentation = mutableListOf<PokeTransfer?>()
+        hierarchy.forEach {
+            listPresentation.add(pokemonHierarchy.find { pokemon -> pokemon.name.contains(it) })
+        }
+        return listPresentation
+    }
+
+    private fun setAdapterEvolution() {
+        pokemonAdapter = AdapterEvolution(requireContext(), this)
+        binding.rvEvolution.adapter = pokemonAdapter
+    }
+
+
+    private fun recoverDataPokemonAndSpecie() {
         viewModel.getPokemonByName(viewModel.pokeTransfer!!.name)
-
-        listSpecie = null
-        Log.v("identi", pokemonSelec!!.name)
-
         viewModel.getSpecieByName(pokemonSelec!!.name)
-
+        listSpecie = null
     }
 
-    private fun convertPokemon() {
+    private fun getStringsInPokemon() {
         hierarchy.forEach {
             viewModel.getPokemonByNameForEvolution(it)
         }
@@ -163,6 +179,7 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
                 if (support.evolves_to.isNotEmpty()) {
                     hierarchy.add(support.species.name)
                     Log.v("Here", "2")
+
                     for (two in 0 until support.evolves_to.size) {
                         support = support.evolves_to[two]
 
@@ -177,16 +194,25 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
                         }
                     }
                 } else {
-
                     hierarchy.add(support.species.name)
                 }
             }
         } else {
-
             hierarchy.add(evolutionTo.chain.species.name)
         }
         Log.d("Evo", hierarchy.toString())
-        convertPokemon()
+        getStringsInPokemon()
+    }
+
+    private fun isLoadingTrue() {
+        isLoading = true
+        binding.inLoadingEvolution.pbPaginationList.visibility = View.VISIBLE
+
+    }
+
+    private fun isLoadingFalse() {
+        isLoading = false
+        binding.inLoadingEvolution.pbPaginationList.visibility = View.GONE
     }
 
     override fun onPokemonClicked(pokemon: PokeTransfer) {

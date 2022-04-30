@@ -1,7 +1,6 @@
 package com.carvalho.pokedex.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.adapter.AdapterStatus
 import com.carvalho.pokedex.adapter.AdapterTypes
@@ -21,16 +21,14 @@ import com.carvalho.pokedex.model.pokemon.type.PokemonType
 class DataFragment : Fragment() {
 
     private lateinit var binding: FragmentDataBinding
-    private lateinit var layoutManagerGrid: GridLayoutManager
-    private lateinit var layoutManagerLinear: LinearLayoutManager
-    private lateinit var pokemonAdapterTypes: AdapterTypes
-
-    private lateinit var pokemonAdapterStats: AdapterStatus
     private val viewModel: MainViewModel by activityViewModels()
+
+    private lateinit var pokemonAdapterTypes: AdapterTypes
+    private lateinit var pokemonAdapterStats: AdapterStatus
 
     private var listTypes: MutableList<PokemonType> = mutableListOf()
     private var listStats: MutableList<PokemonStat> = mutableListOf()
-    private var listAbility: MutableList<PokemonAbility> = mutableListOf()
+
     private var pokemonSelec: Pokemon? = null
 
     override fun onCreateView(
@@ -39,38 +37,50 @@ class DataFragment : Fragment() {
     ): View? {
         binding = FragmentDataBinding.inflate(layoutInflater, container, false)
 
-        pokemonSelec = viewModel.pokemonSelec.value!!.body()
-        recoverData()
+        getContents()
+        recoverDataTypesStats()
 
-        setupPokemonListTypes()
-        setupPokemonListStats()
+        setHeightAndWeight()
+        setupLayoutTypes()
+        setupLayoutStats()
 
         return binding.root
     }
 
-    private fun recoverData() {
-
+    private fun recoverDataTypesStats() {
         listTypes.addAll(pokemonSelec!!.types)
         listStats.addAll(pokemonSelec!!.stats)
-        listAbility.addAll(pokemonSelec!!.abilities)
+    }
 
+    private fun setHeightAndWeight() {
         if (pokemonSelec != null) {
             binding.tvHeight.text = "${pokemonSelec?.height?.div(10.0)} M"
             binding.tvWeight.text = "${pokemonSelec?.weight?.div(10.0)} Kg"
         }
-
+    }
+    private fun setupLayouts(
+        recyclerView: RecyclerView,
+        layoutManager: RecyclerView.LayoutManager
+    ) {
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = layoutManager
     }
 
-
-    private fun setupPokemonListStats() {
-        binding.rvStatus.setHasFixedSize(true)
-        layoutManagerLinear = LinearLayoutManager(context)
-        binding.rvStatus.layoutManager = layoutManagerLinear
-        getPageStats()
+    private fun setupLayoutStats() {
+        setupLayouts(binding.rvStatus, LinearLayoutManager(context))
+        getStats()
     }
 
-    private fun getPageStats() {
+    private fun setupLayoutTypes() {
+        setupLayouts(binding.rvStatus, GridLayoutManager(context, 2))
+        getTypes()
+    }
 
+    private fun getContents() {
+        pokemonSelec = viewModel.pokemonSelec.value?.body()
+    }
+
+    private fun getStats() {
         if (::pokemonAdapterStats.isInitialized) {
             pokemonAdapterStats.setList(listStats)
         } else {
@@ -81,18 +91,8 @@ class DataFragment : Fragment() {
         for (i in 0..listStats.size) {
             AdapterStatus(requireContext()).setList(listStats)
         }
-
     }
-
-    private fun setupPokemonListTypes() {
-        binding.rvTypes.setHasFixedSize(true)
-        layoutManagerGrid = GridLayoutManager(context, 2)
-        binding.rvTypes.layoutManager = layoutManagerGrid
-        getPageTypes()
-    }
-
-    private fun getPageTypes() {
-
+    private fun getTypes() {
         if (::pokemonAdapterTypes.isInitialized) {
             pokemonAdapterTypes.setList(listTypes)
         } else {
@@ -102,7 +102,6 @@ class DataFragment : Fragment() {
         }
         for (i in 0..listTypes.size) {
             AdapterTypes(requireContext()).setList(listTypes)
-
         }
 
     }

@@ -11,10 +11,7 @@ import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.adapter.AdapterAppPager
 import com.carvalho.pokedex.adapter.helpers.PokemonSetBackgroudColor
 import com.carvalho.pokedex.databinding.FragmentPokemonBinding
-import com.carvalho.pokedex.model.pokemon.PokeTransfer
 import com.carvalho.pokedex.model.pokemon.Pokemon
-import com.carvalho.pokedex.model.pokemon.stat.PokemonStat
-import com.carvalho.pokedex.model.pokemon.type.PokemonType
 import com.google.android.material.tabs.TabLayoutMediator
 
 class PokemonFragment : Fragment() {
@@ -23,11 +20,6 @@ class PokemonFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var appPagerAdapter: AdapterAppPager
 
-    private var listTypes: MutableList<PokemonType> = mutableListOf()
-    private var listStats: MutableList<PokemonStat> = mutableListOf()
-    private val titles = arrayListOf("Base", "Moves", "Evolution")
-
-    private var pokeTransfer: PokeTransfer? = null
     private var pokemonSelec: Pokemon? = null
 
 
@@ -37,20 +29,21 @@ class PokemonFragment : Fragment() {
     ): View? {
         binding = FragmentPokemonBinding.inflate(layoutInflater, container, false)
 
-        viewModel.getPokemonByNameForPreview(viewModel.pokeTransfer!!.name)
+        getContentsForPreview()
 
         viewModel.pokemonSelec.observe(viewLifecycleOwner) {
-            pokemonSelec = it.body()
-            recoverData()
-            setupTabLayout()
+            setPokemon(it.body()!!)
+            setHeader()
+            setupLayoutMenu()
         }
-
-
         return binding.root
     }
 
-    private fun recoverData() {
+    private fun setPokemon(pokemon: Pokemon) {
+        pokemonSelec = pokemon
+    }
 
+    private fun setHeader() {
         if (pokemonSelec != null) {
             binding.tvName.text = pokemonSelec?.name!!.replaceFirstChar { it.uppercase() }
             binding.imBackgroundType.setBackgroundResource(
@@ -60,10 +53,14 @@ class PokemonFragment : Fragment() {
             )
             Glide.with(this).load(pokemonSelec?.sprites?.front_default).into(binding.imPokemonFront)
         }
-
     }
 
-    private fun setupTabLayout() {
+    private fun getContentsForPreview() {
+        viewModel.getPokemonByNameForPreview(viewModel.pokeTransfer!!.name)
+    }
+
+    private fun setupLayoutMenu() {
+        val titles = arrayListOf("Base", "Moves", "Evolution")
         appPagerAdapter = AdapterAppPager(this)
         binding.vpInfoPokemon.adapter = appPagerAdapter
         TabLayoutMediator(binding.tlNavPokemon, binding.vpInfoPokemon) { tab, position ->

@@ -54,7 +54,12 @@ class AdapterEvolution(
     }
 
     fun setList(list: List<PokeTransfer?>) {
-        pokemon = list.sortedBy { it?.order }
+        var listSupport = list
+        listSupport = listSupport.distinctBy { it?.name }
+        listSupport = listSupport.sortedBy { it?.order }
+
+        pokemon = listSupport
+
         notifyDataSetChanged()
     }
 

@@ -57,13 +57,10 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
                 }
                 return false
             }
-
             override fun onQueryTextChange(query: String?): Boolean {
                 return false
             }
-
         })
-
         return binding.root
     }
 
@@ -79,7 +76,7 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
 
     private fun isLoadingTrue() {
         isLoading = true
-        binding.inLoadingSearch.pbPaginationList.visibility = View.VISIBLE
+        binding.inLoadingSearch.pbPaginationList.visibility = View.INVISIBLE
     }
 
     private fun isLoadingFalse() {
@@ -99,33 +96,29 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
 
     private fun includeContentsInPage() {
         isLoadingTrue()
-
         Handler(Looper.myLooper() ?: return).postDelayed({
 
             if (::pokemonAdapter.isInitialized) {
                 if (binding.rvSearches.adapter == null) {
                     setAdapter()
                     setListInAdapter()
-                    if (list.isEmpty()) {
-                        notFound()
-                    }
+                    notFound()
                 } else {
                     setListInAdapter()
                 }
             } else {
                 setAdapter()
                 setListInAdapter()
-                if (list.isEmpty()) {
-                    notFound()
-                }
+                notFound()
             }
             isLoadingFalse()
         }, 500)
-
     }
 
-    private fun notFound(){
+    private fun notFound() {
+        if (list.isEmpty()) {
             Toast.makeText(context, "Não foi encontrado nada", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setAdapter() {
