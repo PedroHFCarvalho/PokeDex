@@ -31,8 +31,6 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
     private lateinit var layoutManager: LinearLayoutManager
 
     private var isLoading = false
-    private lateinit var pokemon: Pokemon
-    private lateinit var pokeTransfer: PokeTransfer
     private var list: MutableSet<PokeTransfer> = mutableSetOf()
 
 
@@ -42,25 +40,18 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
     ): View? {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
 
-        setupPokemonList()
+        setupLayout()
 
         viewModel.responsePokemonSearch.observe(viewLifecycleOwner) {
-            pokemon = it.body()!!
-            pokeTransfer = PokeTransfer(
-                pokemon.id,
-                pokemon.name,
-                pokemon.order,
-                pokemon.sprites,
-                pokemon.types
-            )
-            list.add(pokeTransfer)
+            list.add(buildPokeTransfer(it.body()!!))
         }
 
         binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 list.clear()
                 if (!query.isNullOrBlank()) {
-                    getPage(query)
+                    getContents(query)
+                    includeContentsInPage()
                 } else {
                     Toast.makeText(context, "Nada foi digítado", Toast.LENGTH_SHORT).show()
                 }
@@ -76,53 +67,74 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
         return binding.root
     }
 
+    private fun buildPokeTransfer(pokemon: Pokemon): PokeTransfer {
+        return PokeTransfer(
+            pokemon.id,
+            pokemon.name,
+            pokemon.order,
+            pokemon.sprites,
+            pokemon.types
+        )
+    }
 
-    private fun setupPokemonList() {
-        binding.rvSearches.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(context)
-        binding.rvSearches.layoutManager = layoutManager
+    private fun isLoadingTrue() {
+        isLoading = true
+        binding.inLoadingSearch.pbPaginationList.visibility = View.VISIBLE
+    }
+
+    private fun isLoadingFalse() {
+        isLoading = false
         binding.inLoadingSearch.pbPaginationList.visibility = View.GONE
     }
 
-    private fun getPage(query: String) {
-        isLoading = true
-        binding.inLoadingSearch.pbPaginationList.visibility = View.VISIBLE
+    private fun setupLayout() {
+        binding.rvSearches.setHasFixedSize(true)
+        layoutManager = LinearLayoutManager(context)
+        binding.rvSearches.layoutManager = layoutManager
+    }
 
+    private fun getContents(query: String) {
         viewModel.getPokemonByName(query)
+    }
 
+    private fun includeContentsInPage() {
+        isLoadingTrue()
 
         Handler(Looper.myLooper() ?: return).postDelayed({
 
             if (::pokemonAdapter.isInitialized) {
                 if (binding.rvSearches.adapter == null) {
-                    pokemonAdapter = AdapterSearch(this)
-                    binding.rvSearches.adapter = pokemonAdapter
-                    pokemonAdapter.setList(list.sortedBy { it.name })
+                    setAdapter()
+                    setListInAdapter()
                     if (list.isEmpty()) {
-                        Toast.makeText(context, "Não foi encontrado nada", Toast.LENGTH_SHORT)
-                            .show()
+                        notFound()
                     }
-                    Log.e("true", "true")
-
                 } else {
-
-                    pokemonAdapter.setList(list.sortedBy { it.name })
-                    Log.v("Pag1", list.toString())
-
+                    setListInAdapter()
                 }
             } else {
-                pokemonAdapter = AdapterSearch(this)
-                binding.rvSearches.adapter = pokemonAdapter
-                pokemonAdapter.setList(list.distinctBy { it.name })
+                setAdapter()
+                setListInAdapter()
                 if (list.isEmpty()) {
-                    Toast.makeText(context, "Não foi encontrado nada", Toast.LENGTH_SHORT).show()
+                    notFound()
                 }
-                Log.v("Pag2", list.toString())
             }
-            isLoading = false
-            binding.inLoadingSearch.pbPaginationList.visibility = View.GONE
-        }, 1000)
+            isLoadingFalse()
+        }, 500)
 
+    }
+
+    private fun notFound(){
+            Toast.makeText(context, "Não foi encontrado nada", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setAdapter() {
+        pokemonAdapter = AdapterSearch(this)
+        binding.rvSearches.adapter = pokemonAdapter
+    }
+
+    private fun setListInAdapter() {
+        pokemonAdapter.setList(list.sortedBy { it.name })
     }
 
     override fun onPokemonClicked(pokemon: PokeTransfer) {

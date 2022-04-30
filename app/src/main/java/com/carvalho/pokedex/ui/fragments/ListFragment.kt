@@ -3,7 +3,6 @@ package com.carvalho.pokedex.ui.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,12 +29,11 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     private var page = 0
     private var isLoading = false
     private var limite = 25
+    private var list: MutableSet<PokeTransfer> = mutableSetOf()
 
     private lateinit var pokemonAdapter: AdapterListagem
     private lateinit var layoutManager: GridLayoutManager
-    private lateinit var pokemon: Pokemon
-    private lateinit var pokeTransfer: PokeTransfer
-    private var list: MutableSet<PokeTransfer> = mutableSetOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,88 +41,100 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     ): View? {
         binding = FragmentListBinding.inflate(layoutInflater, container, false)
 
-        setupPokemonList()
+        setupLayout()
+        getContents()
+        includeContentsInPage()
 
         viewModel.responsePokemon.observe(viewLifecycleOwner) {
-            pokemon = it.body()!!
-            pokeTransfer = PokeTransfer(
-                pokemon.id,
-                pokemon.name,
-                pokemon.order,
-                pokemon.sprites,
-                pokemon.types
-            )
-            list.add(pokeTransfer)
+            list.add(buildPokeTransfer(it.body()!!))
         }
 
         binding.rvListPokemon.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
-                    val visivleItemCont = layoutManager.childCount
-                    val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-                    val total = pokemonAdapter.itemCount
-
-
-                    if (!isLoading) {
-                        if ((visivleItemCont + pastVisibleItem) >= total) {
-                            page++
-                            getPage()
-                            Log.d("Final", page.toString())
-                        }
-                    }
+                    getNextPage()
                 }
                 super.onScrolled(recyclerView, dx, dy)
             }
         })
-
         return binding.root
     }
 
+    private fun includeContentsInPage() {
 
-    private fun setupPokemonList() {
-        binding.rvListPokemon.setHasFixedSize(true)
-        layoutManager = GridLayoutManager(context, 3)
-        binding.rvListPokemon.layoutManager = layoutManager
+        isLoadingTrue()
 
-
-        getPage()
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (::pokemonAdapter.isInitialized) {
+                if (binding.rvListPokemon.adapter == null) {
+                    setAdapter()
+                    setListInAdapter()
+                } else {
+                    setListInAdapter()
+                }
+            } else {
+                setAdapter()
+                setListInAdapter()
+            }
+            isLoadingFalse()
+        }, 2000)
     }
 
-    private fun getPage() {
+    private fun isLoadingTrue() {
         isLoading = true
         binding.inLoadingList.pbPaginationList.visibility = View.VISIBLE
+    }
+    private fun isLoadingFalse() {
+        isLoading = false
+        binding.inLoadingList.pbPaginationList.visibility = View.GONE
+    }
+
+    private fun buildPokeTransfer(pokemon: Pokemon): PokeTransfer {
+        return PokeTransfer(
+            pokemon.id,
+            pokemon.name,
+            pokemon.order,
+            pokemon.sprites,
+            pokemon.types
+        )
+    }
+
+    private fun getNextPage() {
+        val visibleItemCont = layoutManager.childCount
+        val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+        val total = pokemonAdapter.itemCount
+
+        if (!isLoading) {
+            if ((visibleItemCont + pastVisibleItem) >= total) {
+                page++
+                getContents()
+                includeContentsInPage()
+            }
+        }
+    }
+
+    private fun getContents() {
         val start = ((page) * limite) + 1
         val end = (page + 1) * limite
 
         for (i in start..end) {
             viewModel.getPokemonByNumber(i)
         }
+    }
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (::pokemonAdapter.isInitialized) {
-                if (binding.rvListPokemon.adapter == null) {
-                    pokemonAdapter = AdapterListagem(this, context)
-                    binding.rvListPokemon.adapter = pokemonAdapter
-                    pokemonAdapter.setList(list.distinctBy { it.name })
-                    Log.e("true", "true")
+    private fun setAdapter() {
+        pokemonAdapter = AdapterListagem(this, context)
+        binding.rvListPokemon.adapter = pokemonAdapter
+    }
 
-                } else {
+    private fun setListInAdapter() {
+        pokemonAdapter.setList(list.toList())
+    }
 
-                    pokemonAdapter.setList(list.distinctBy { it.name })
-                    Log.v("Pag1", list.toString())
-
-                }
-            } else {
-                pokemonAdapter = AdapterListagem(this, context)
-                binding.rvListPokemon.adapter = pokemonAdapter
-                pokemonAdapter.setList(list.distinctBy { it.name })
-                Log.v("Pag2", list.toString())
-            }
-            isLoading = false
-            binding.inLoadingList.pbPaginationList.visibility = View.GONE
-        }, 2000)
-
-
+    private fun setupLayout() {
+        binding.rvListPokemon.setHasFixedSize(true)
+        layoutManager = GridLayoutManager(context, 3)
+        binding.rvListPokemon.layoutManager = layoutManager
     }
 
     override fun onPokemonClicked(pokemon: PokeTransfer) {
@@ -134,8 +144,6 @@ class ListFragment : Fragment(), PokemonItemClickListener {
             NavOptions.Builder().setPopUpTo(R.id.pokemonFragment, true)
                 .build()
         )
-
     }
-
 }
 
