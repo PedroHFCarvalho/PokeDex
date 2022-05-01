@@ -58,6 +58,7 @@ class DataFragment : Fragment() {
             binding.tvWeight.text = "${pokemonSelec?.weight?.div(10.0)} Kg"
         }
     }
+
     private fun setupLayouts(
         recyclerView: RecyclerView,
         layoutManager: RecyclerView.LayoutManager
@@ -92,6 +93,7 @@ class DataFragment : Fragment() {
             AdapterStatus(requireContext()).setList(listStats)
         }
     }
+
     private fun getTypes() {
         if (::pokemonAdapterTypes.isInitialized) {
             pokemonAdapterTypes.setList(listTypes)
@@ -103,7 +105,5 @@ class DataFragment : Fragment() {
         for (i in 0..listTypes.size) {
             AdapterTypes(requireContext()).setList(listTypes)
         }
-
     }
-
 }

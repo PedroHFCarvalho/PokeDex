@@ -26,26 +26,24 @@ import com.carvalho.pokedex.model.species.PokemonSpecies
 
 class EvolutionFragment : Fragment(), PokemonItemClickListener {
 
-
     private lateinit var binding: FragmentEvolutionBinding
     private val viewModel: MainViewModel by activityViewModels()
-    private lateinit var evolutionTo: EvolutionChain
 
-    private var listSpecie: PokemonSpecies? = null
+    private lateinit var evolutionTo: EvolutionChain
+    private lateinit var pokemonAdapter: AdapterEvolution
+
     private var hierarchy = mutableListOf<String>()
     private var pokemonHierarchy = mutableListOf<PokeTransfer>()
 
     private var isLoading = false
-    private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var pokemonAdapter: AdapterEvolution
 
+    private var listSpecie: PokemonSpecies? = null
     private var pokemonSelec: Pokemon? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentEvolutionBinding.inflate(layoutInflater, container, false)
 
         setupLayoutList()
@@ -75,7 +73,6 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
     }
 
     private fun getEvolutionBySpecie(pokemonSpecie: PokemonSpecies) {
-
         if (listSpecie != pokemonSpecie) {
             listSpecie = pokemonSpecie
             val urlStr =
@@ -107,8 +104,7 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
 
     private fun setupLayoutList() {
         binding.rvEvolution.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(context)
-        binding.rvEvolution.layoutManager = layoutManager
+        binding.rvEvolution.layoutManager = LinearLayoutManager(context)
     }
 
     private fun includeContentsInPageEvolution() {
@@ -117,20 +113,16 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
         recoverDataPokemonAndSpecie()
 
         Handler(Looper.getMainLooper()).postDelayed({
-
             setAdapterEvolution()
-
             val listPresentation = listDistinctByHierarchy()
 
             if (listPresentation.size == 1 || listPresentation.isNullOrEmpty()) {
                 notHasEvolution()
             }
-
             pokemonAdapter.setList(listPresentation.toList())
-
             isLoadingFalse()
             listPresentation.clear()
-        }, 1000)
+        }, 2000)
 
     }
 
@@ -143,6 +135,7 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
         hierarchy.forEach {
             listPresentation.add(pokemonHierarchy.find { pokemon -> pokemon.name.contains(it) })
         }
+        pokemonHierarchy.clear()
         return listPresentation
     }
 
@@ -217,10 +210,9 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
 
     override fun onPokemonClicked(pokemon: PokeTransfer) {
         viewModel.pokeTransfer = pokemon
+
         findNavController().navigate(
-            R.id.action_pokemonFragment_self, null,
-            NavOptions.Builder().setPopUpTo(R.id.pokemonFragment, true)
-                .build()
+            R.id.action_pokemonFragment_self
         )
 
     }

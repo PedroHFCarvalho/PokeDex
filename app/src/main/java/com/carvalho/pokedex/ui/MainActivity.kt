@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.carvalho.pokedex.R
 import com.carvalho.pokedex.databinding.ActivityMainBinding
@@ -26,25 +27,33 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        setNavController()
         setupBottomNavigation()
+        setupToolbar()
 
         navigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_list -> {
-                    findNavController(R.id.fragmentContainerView).navigate(
+                    val navOption = NavOptions.Builder()
+                        .setEnterAnim(R.anim.from_left)
+                        .setPopUpTo(R.id.searchFragment, true)
+                        .build()
+                    findNavController(R.id.fvApresentation).navigate(
                         R.id.listFragment,
                         null,
-                        NavOptions.Builder().setPopUpTo(R.id.searchFragment, true)
-                            .build()
+                        navOption
                     )
                     true
                 }
                 R.id.fragment_search -> {
-                    findNavController(R.id.fragmentContainerView).navigate(
+                    val navOption = NavOptions.Builder()
+                        .setEnterAnim(R.anim.from_right)
+                        .setPopUpTo(R.id.listFragment, true)
+                        .build()
+                    findNavController(R.id.fvApresentation).navigate(
                         R.id.searchFragment,
                         null,
-                        NavOptions.Builder().setPopUpTo(R.id.listFragment, true)
-                            .build()
+                        navOption,
                     )
                     true
                 }
@@ -61,11 +70,19 @@ class MainActivity : AppCompatActivity() {
         navigationView = binding.inNavigationBottom.nvBottom
         navigationView.selectedItemId = R.id.listFragment
 
-        navController =
-            findNavController(R.id.fragmentContainerView) // Identifica o navController com base no fragmenteView
-        binding.inNavigationBottom.nvBottom.setupWithNavController(navController)// Set o NavController
-
+        binding.inNavigationBottom.nvBottom.setupWithNavController(navController)
     }
 
+    private fun setNavController() {
+        navController = findNavController(R.id.fvApresentation)
+    }
 
+    private fun setupToolbar() {
+        setSupportActionBar(binding.inToolbar.toolbar)
+        setupActionBarWithNavController(navController)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
 }

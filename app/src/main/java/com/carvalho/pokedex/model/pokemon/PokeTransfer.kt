@@ -9,5 +9,5 @@ data class PokeTransfer(
     val name: String,
     val order: Int,
     val sprites: PokemonSprites,
-    val types: List<PokemonType>
+    val types: List<PokemonType>,
 )

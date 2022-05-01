@@ -40,11 +40,8 @@ class MainViewModel @Inject constructor(
 
     var pokeTransfer: PokeTransfer? = null
 
-
     private val _pokemonSelec = MutableLiveData<Response<Pokemon>>()
     var pokemonSelec: LiveData<Response<Pokemon>> = _pokemonSelec
-
-
 
     fun getPokemonByNumber(number: Int) {
         viewModelScope.launch {

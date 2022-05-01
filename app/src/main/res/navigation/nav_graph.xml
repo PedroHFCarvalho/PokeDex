@@ -11,12 +11,12 @@
         android:label="fragment_list"
         tools:layout="@layout/fragment_list">
         <action
-            android:id="@+id/action_listFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
             android:id="@+id/action_listFragment_to_pokemonFragment"
             app:destination="@id/pokemonFragment"
-            app:popUpToInclusive="false" />
+            app:enterAnim="@anim/from_top"
+            app:exitAnim="@anim/to_bottom"
+            app:popEnterAnim="@anim/from_bottom"
+            app:popExitAnim="@anim/to_top" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -24,24 +24,26 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_searchFragment_to_listFragment"
-            app:destination="@id/listFragment" />
-        <action
             android:id="@+id/action_searchFragment_to_pokemonFragment"
-            app:destination="@id/pokemonFragment" />
+            app:destination="@id/pokemonFragment"
+            app:enterAnim="@anim/from_top"
+            app:exitAnim="@anim/to_bottom"
+            app:popEnterAnim="@anim/from_bottom"
+            app:popExitAnim="@anim/to_top" />
     </fragment>
     <fragment
         android:id="@+id/pokemonFragment"
         android:name="com.carvalho.pokedex.ui.fragments.PokemonFragment"
         android:label="fragment_pokemon"
-        tools:layout="@layout/fragment_pokemon" >
-        <action
-            android:id="@+id/action_pokemonFragment_to_listFragment"
-            app:destination="@id/listFragment"
-            app:popUpTo="@id/pokemonFragment"
-            app:popUpToInclusive="true" />
+        tools:layout="@layout/fragment_pokemon">
         <action
             android:id="@+id/action_pokemonFragment_self"
-            app:destination="@id/pokemonFragment" />
+            app:destination="@id/pokemonFragment"
+            app:enterAnim="@anim/from_top"
+            app:exitAnim="@anim/to_bottom"
+            app:popEnterAnim="@anim/from_bottom"
+            app:popExitAnim="@anim/to_top"
+            app:popUpTo="@id/pokemonFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

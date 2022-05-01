@@ -3,19 +3,18 @@ package com.carvalho.pokedex.ui.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.R
-import com.carvalho.pokedex.adapter.AdapterListagem
 import com.carvalho.pokedex.adapter.AdapterSearch
 import com.carvalho.pokedex.adapter.helpers.PokemonItemClickListener
 import com.carvalho.pokedex.databinding.FragmentSearchBinding
@@ -33,13 +32,15 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
     private var isLoading = false
     private var list: MutableSet<PokeTransfer> = mutableSetOf()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
 
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
+        isLoadingFalse()
         setupLayout()
 
         viewModel.responsePokemonSearch.observe(viewLifecycleOwner) {
@@ -57,6 +58,7 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
                 }
                 return false
             }
+
             override fun onQueryTextChange(query: String?): Boolean {
                 return false
             }
@@ -134,4 +136,5 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
         viewModel.pokeTransfer = pokemon
         findNavController().navigate(R.id.action_searchFragment_to_pokemonFragment)
     }
+
 }

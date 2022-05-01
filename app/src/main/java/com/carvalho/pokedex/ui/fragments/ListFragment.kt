@@ -34,7 +34,6 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     private lateinit var pokemonAdapter: AdapterListagem
     private lateinit var layoutManager: GridLayoutManager
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -132,6 +131,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
         isLoading = true
         binding.inLoadingList.pbPaginationList.visibility = View.VISIBLE
     }
+
     private fun isLoadingFalse() {
         isLoading = false
         binding.inLoadingList.pbPaginationList.visibility = View.GONE
@@ -140,9 +140,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     override fun onPokemonClicked(pokemon: PokeTransfer) {
         viewModel.pokeTransfer = pokemon
         findNavController().navigate(
-            R.id.action_listFragment_to_pokemonFragment, null,
-            NavOptions.Builder().setPopUpTo(R.id.pokemonFragment, true)
-                .build()
+            R.id.action_listFragment_to_pokemonFragment
         )
     }
 }
