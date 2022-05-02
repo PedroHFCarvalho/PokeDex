@@ -1,6 +1,7 @@
 package com.carvalho.pokedex.ui
 
 import android.os.Bundle
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -36,6 +37,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.fragment_list -> {
                     val navOption = NavOptions.Builder()
                         .setEnterAnim(R.anim.from_left)
+                        .setExitAnim(R.anim.to_right)
+                        .setPopEnterAnim(R.anim.from_right)
+                        .setPopExitAnim(R.anim.to_left)
                         .setPopUpTo(R.id.searchFragment, true)
                         .build()
                     findNavController(R.id.fvApresentation).navigate(
@@ -48,6 +52,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.fragment_search -> {
                     val navOption = NavOptions.Builder()
                         .setEnterAnim(R.anim.from_right)
+                        .setExitAnim(R.anim.to_left)
+                        .setPopEnterAnim(R.anim.from_left)
+                        .setPopExitAnim(R.anim.to_right)
                         .setPopUpTo(R.id.listFragment, true)
                         .build()
                     findNavController(R.id.fvApresentation).navigate(
@@ -57,9 +64,9 @@ class MainActivity : AppCompatActivity() {
                     )
                     true
                 }
-                R.id.fragment_menu ->
-                    // do something here
-                    true
+//                R.id.fragment_menu ->
+//                    // do something here
+//                    true
                 else -> true
             }
         }

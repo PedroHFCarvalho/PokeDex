@@ -11,9 +11,9 @@
         android:icon="@drawable/ic_baseline_search_24"
         android:title="Search"/>
 
-    <item
+    <!--<item
         android:id="@+id/fragment_menu"
         android:icon="@drawable/ic_baseline_menu_24"
-        android:title="Menu"/>
+        android:title="Menu"/>-->
 
 </menu>
