@@ -22,5 +22,5 @@
 - Retrofit
 - ViewBinding
 - Android JetPack
-
+- [API PokéAPI](https://pokeapi.co/docs/v2)
 
