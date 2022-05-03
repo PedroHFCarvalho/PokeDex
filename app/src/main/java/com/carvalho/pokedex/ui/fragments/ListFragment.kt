@@ -3,6 +3,7 @@ package com.carvalho.pokedex.ui.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -142,6 +143,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
         findNavController().navigate(
             R.id.action_listFragment_to_pokemonFragment
         )
+
     }
 }
 

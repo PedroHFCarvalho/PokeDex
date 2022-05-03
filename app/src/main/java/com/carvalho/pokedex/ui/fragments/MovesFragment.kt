@@ -96,4 +96,20 @@ class MovesFragment : Fragment() {
             AdapterMoves(requireContext()).setList(listMove)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        setProperHeightOfView()
+    }
+
+    private fun setProperHeightOfView() {
+        val layoutView = view
+        if (layoutView != null) {
+            val layoutParams = layoutView.layoutParams
+            if (layoutParams != null) {
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                layoutView.requestLayout()
+            }
+        }
+    }
 }

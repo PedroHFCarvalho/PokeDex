@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.R
@@ -44,8 +46,6 @@ class PokemonFragment : Fragment() {
             setupLayoutMenu()
         }
 
-
-
         return binding.root
     }
 
@@ -77,4 +77,5 @@ class PokemonFragment : Fragment() {
             tab.text = titles[position]
         }.attach()
     }
+
 }

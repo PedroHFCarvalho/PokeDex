@@ -50,6 +50,7 @@ class AdapterListagem(
         holder.itemView.setOnClickListener {
             pokemonItemClickListener.onPokemonClicked(pokemon[position])
         }
+
     }
 
     override fun getItemCount(): Int {

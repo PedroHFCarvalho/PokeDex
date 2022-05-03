@@ -1,5 +1,6 @@
 package com.carvalho.pokedex.ui.fragments
 
+import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +15,9 @@ import com.carvalho.pokedex.adapter.AdapterStatus
 import com.carvalho.pokedex.adapter.AdapterTypes
 import com.carvalho.pokedex.databinding.FragmentDataBinding
 import com.carvalho.pokedex.model.pokemon.Pokemon
-import com.carvalho.pokedex.model.pokemon.ability.PokemonAbility
 import com.carvalho.pokedex.model.pokemon.stat.PokemonStat
 import com.carvalho.pokedex.model.pokemon.type.PokemonType
+
 
 class DataFragment : Fragment() {
 
@@ -104,6 +105,22 @@ class DataFragment : Fragment() {
         }
         for (i in 0..listTypes.size) {
             AdapterTypes(requireContext()).setList(listTypes)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setProperHeightOfView()
+    }
+
+    private fun setProperHeightOfView() {
+        val layoutView = view
+        if (layoutView != null) {
+            val layoutParams = layoutView.layoutParams
+            if (layoutParams != null) {
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                layoutView.requestLayout()
+            }
         }
     }
 }

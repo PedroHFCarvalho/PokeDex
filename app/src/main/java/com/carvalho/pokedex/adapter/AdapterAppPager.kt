@@ -1,7 +1,9 @@
 package com.carvalho.pokedex.adapter
 
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.carvalho.pokedex.ui.fragments.DataFragment
 import com.carvalho.pokedex.ui.fragments.EvolutionFragment
 import com.carvalho.pokedex.ui.fragments.MovesFragment
@@ -13,11 +15,15 @@ class AdapterAppPager(fragmentActivity: PokemonFragment): FragmentStateAdapter(f
     }
 
     override fun createFragment(position: Int): Fragment {
+
         return when(position){
             0->DataFragment()
             1->MovesFragment()
             2->EvolutionFragment()
             else -> DataFragment()
         }
+
+
     }
+
 }
