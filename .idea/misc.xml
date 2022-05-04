@@ -19,13 +19,13 @@
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_moves.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_preview.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_search.xml" value="0.33" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_status.xml" value="0.34269662921348315" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_status.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_types.xml" value="0.7547169811320755" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_data.xml" value="0.17676767676767677" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_evolution.xml" value="0.33" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_data.xml" value="0.33" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_evolution.xml" value="0.1" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_list.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_moves.xml" value="0.33" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_pokemon.xml" value="0.33" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_pokemon.xml" value="0.25" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_search.xml" value="0.25" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/loading.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/navigation_bottom.xml" value="0.22" />

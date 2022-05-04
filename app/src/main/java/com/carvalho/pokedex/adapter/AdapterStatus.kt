@@ -29,6 +29,8 @@ class AdapterStatus(val context: Context) :
 
         holder.binding.progressBar.progress = pokemon[position].base_stat
 
+        holder.binding.tvNumberStatus.text = pokemon[position].base_stat.toString()
+
         holder.binding.tvStatus.text =
             pokemon[position].stat.name.replaceFirstChar { it.uppercase() }
     }

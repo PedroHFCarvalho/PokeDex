@@ -8,8 +8,8 @@
     <color name="secundary_500">#f44336</color>
     <color name="secundary_700">#ba000d</color>
 
-    <color name="black">#FF121212</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#121212</color>
+    <color name="white">#FFFFFF</color>
 
     <color name="bug">#b0be45</color>
     <color name="dark">#855f52</color>

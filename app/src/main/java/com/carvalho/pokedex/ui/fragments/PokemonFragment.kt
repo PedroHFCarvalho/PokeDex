@@ -4,20 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.carvalho.pokedex.MainViewModel
-import com.carvalho.pokedex.R
 import com.carvalho.pokedex.adapter.AdapterAppPager
 import com.carvalho.pokedex.adapter.helpers.PokemonSetBackgroudColor
-import com.carvalho.pokedex.databinding.ActivityMainBinding
 import com.carvalho.pokedex.databinding.FragmentPokemonBinding
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.google.android.material.tabs.TabLayoutMediator
@@ -76,6 +68,7 @@ class PokemonFragment : Fragment() {
         TabLayoutMediator(binding.tlNavPokemon, binding.vpInfoPokemon) { tab, position ->
             tab.text = titles[position]
         }.attach()
+        binding.vpInfoPokemon.isUserInputEnabled = false
     }
 
 }

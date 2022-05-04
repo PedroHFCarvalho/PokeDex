@@ -99,7 +99,6 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
     private fun includeContentsInPage() {
         isLoadingTrue()
         Handler(Looper.myLooper() ?: return).postDelayed({
-
             if (::pokemonAdapter.isInitialized) {
                 if (binding.rvSearches.adapter == null) {
                     setAdapter()
