@@ -21,7 +21,7 @@ class AdapterListagem(
     var context: Context?
 ) : RecyclerView.Adapter<AdapterListagem.PokemonViewHolder>() {
 
-    var pokemon = emptyList<PokeTransfer>()
+    var pokemon = mutableListOf<PokeTransfer>()
 
     class PokemonViewHolder(var binding: CardviewPreviewBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -44,6 +44,14 @@ class AdapterListagem(
 
         holder.binding.clBackground.setBackgroundColor(getColor(context!!, color))
 
+        if (pokemon[position].id.toString().length == 1) {
+            holder.binding.tvOrder.text = "#00${pokemon[position].id}"
+        } else if (pokemon[position].id.toString().length == 2) {
+            holder.binding.tvOrder.text = "#0${pokemon[position].id}"
+        } else {
+            holder.binding.tvOrder.text = "#${pokemon[position].id}"
+        }
+
         holder.binding.tvPokeomonNome.text =
             pokemon[position].name.replaceFirstChar { it.uppercase() }
 
@@ -58,12 +66,7 @@ class AdapterListagem(
     }
 
     fun setList(list: List<PokeTransfer>) {
-        var listSupport = list
-        listSupport = listSupport.distinctBy { it.name }
-        listSupport = listSupport.sortedBy { it.order }
-
-        pokemon = listSupport
-
+        pokemon.addAll(list)
         notifyDataSetChanged()
     }
 

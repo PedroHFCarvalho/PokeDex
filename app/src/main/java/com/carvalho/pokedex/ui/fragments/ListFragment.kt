@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.transition.TransitionInflater
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     private var page = 0
     private var isLoading = false
     private var limite = 25
-    private var list: MutableSet<PokeTransfer> = mutableSetOf()
+    private var list: MutableList<PokeTransfer> = mutableListOf()
 
     private lateinit var pokemonAdapter: AdapterListagem
     private lateinit var layoutManager: GridLayoutManager
@@ -56,14 +57,27 @@ class ListFragment : Fragment(), PokemonItemClickListener {
                 }
                 super.onScrolled(recyclerView, dx, dy)
             }
+
+            private fun getNextPage() {
+                val visibleItemCont = layoutManager.childCount
+                val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+                val total = pokemonAdapter.itemCount
+
+                if (!isLoading) {
+                    if ((visibleItemCont + pastVisibleItem) >= total) {
+                        page++
+                        Log.d("Cont Page", page.toString())
+                        getContentsForList()
+                        includeContentsInPage()
+                    }
+                }
+            }
         })
         return binding.root
     }
 
     private fun includeContentsInPage() {
-
         isLoadingTrue()
-
         Handler(Looper.getMainLooper()).postDelayed({
             if (::pokemonAdapter.isInitialized) {
                 if (binding.rvListPokemon.adapter == null) {
@@ -77,7 +91,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
                 setListInAdapter()
             }
             isLoadingFalse()
-        }, 2000)
+        }, 1500)
     }
 
     private fun setAdapter() {
@@ -86,7 +100,8 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     }
 
     private fun setListInAdapter() {
-        pokemonAdapter.setList(list.toList())
+        pokemonAdapter.setList(list.sortedBy { it.order })
+        list.clear()
     }
 
     private fun setupLayoutList() {
@@ -95,26 +110,15 @@ class ListFragment : Fragment(), PokemonItemClickListener {
         binding.rvListPokemon.layoutManager = layoutManager
     }
 
-    private fun getNextPage() {
-        val visibleItemCont = layoutManager.childCount
-        val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-        val total = pokemonAdapter.itemCount
-
-        if (!isLoading) {
-            if ((visibleItemCont + pastVisibleItem) >= total) {
-                page++
-                getContentsForList()
-                includeContentsInPage()
-            }
-        }
-    }
 
     private fun getContentsForList() {
+
         val start = ((page) * limite) + 1
         val end = (page + 1) * limite
 
         for (i in start..end) {
             viewModel.getPokemonByNumber(i)
+            Log.d("Cont", i.toString())
         }
     }
 
