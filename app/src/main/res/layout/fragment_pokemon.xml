@@ -17,7 +17,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|snap">
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -28,26 +28,26 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:background="@color/electric"
-                    app:layout_constraintBottom_toBottomOf="@+id/imPokemonFront"
+                    app:layout_constraintBottom_toBottomOf="@+id/carouselPokemon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/imPokemonFront"
+                    app:layout_constraintTop_toTopOf="@+id/carouselPokemon"
                     app:layout_constraintVertical_bias="1.0"
                     app:shapeAppearanceOverlay="@style/imageview_backgound_radius"
                     app:srcCompat="@drawable/imageview_cardviewpreview"
                     tools:src="@color/electric"
                     tools:srcCompat="@drawable/imageview_cardviewpreview" />
 
-                <ImageView
-                    android:id="@+id/imPokemonFront"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:scaleType="centerCrop"
+                <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+                    android:id="@+id/carouselPokemon"
+                    android:layout_width="match_parent"
+                    android:layout_height="192dp"
                     app:layout_constraintEnd_toEndOf="@+id/imBackgroundType"
                     app:layout_constraintStart_toStartOf="@+id/imBackgroundType"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@tools:sample/avatars" />
+                    tools:ignore="SpeakableTextPresentCheck"
+                    tools:listitem="@layout/item_view_carousel" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>

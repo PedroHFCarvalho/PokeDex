@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.carvalho.pokedex.MainViewModel
+import com.carvalho.pokedex.R
 import com.carvalho.pokedex.adapter.AdapterAppPager
+import com.carvalho.pokedex.adapter.AdapterCarousel
 import com.carvalho.pokedex.adapter.helpers.PokemonSetBackgroudColor
 import com.carvalho.pokedex.databinding.FragmentPokemonBinding
 import com.carvalho.pokedex.model.pokemon.Pokemon
@@ -21,6 +27,7 @@ class PokemonFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
 
     private lateinit var appPagerAdapter: AdapterAppPager
+    private lateinit var adapterCarousel: AdapterCarousel
 
     private var pokemonSelec: Pokemon? = null
 
@@ -51,7 +58,7 @@ class PokemonFragment : Fragment() {
                     pokemonSelec?.types!![0].type.name
                 )
             )
-            Glide.with(this).load(pokemonSelec?.sprites?.front_default).into(binding.imPokemonFront)
+            setupLayoutCarousel()
         }
     }
 
@@ -69,9 +76,27 @@ class PokemonFragment : Fragment() {
         binding.vpInfoPokemon.isUserInputEnabled = false
     }
 
+    private fun setupLayoutCarousel() {
+        adapterCarousel = AdapterCarousel(requireContext())
+        adapterCarousel.setPokemonInAdapter(pokemonSelec!!)
+
+        binding.carouselPokemon.adapter = adapterCarousel
+
+        binding.carouselPokemon.setInfinite(true)
+        binding.carouselPokemon.set3DItem(false)
+        binding.carouselPokemon.setIntervalRatio(1F)
+        binding.carouselPokemon.setAlpha(true)
+    }
+
     override fun onResume() {
+        (activity as AppCompatActivity).supportActionBar?.hide()
         getContentsForPreview()
         super.onResume()
+    }
+
+    override fun onPause() {
+        (activity as AppCompatActivity).supportActionBar?.show()
+        super.onPause()
     }
 
 }

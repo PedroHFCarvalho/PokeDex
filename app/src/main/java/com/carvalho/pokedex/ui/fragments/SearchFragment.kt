@@ -38,8 +38,6 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
     ): View? {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
 
-
-
         viewModel.responsePokemonSearch.observe(viewLifecycleOwner) {
             list.add(buildPokeTransfer(it.body()!!))
         }

@@ -80,7 +80,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response = repository.getPokemonByName(name)
-                _responsePokemonEvolution!!.value = response
+                _responsePokemonEvolution.value = response
             } catch (e: Exception) {
                 Log.e("Err", e.message.toString())
             }
