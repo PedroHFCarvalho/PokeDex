@@ -30,8 +30,6 @@ class PokemonFragment : Fragment() {
     ): View? {
         binding = FragmentPokemonBinding.inflate(layoutInflater, container, false)
 
-        getContentsForPreview()
-
         viewModel.pokemonSelec.observe(viewLifecycleOwner) {
             setPokemon(it.body()!!)
             setHeader()
@@ -69,6 +67,11 @@ class PokemonFragment : Fragment() {
             tab.text = titles[position]
         }.attach()
         binding.vpInfoPokemon.isUserInputEnabled = false
+    }
+
+    override fun onResume() {
+        getContentsForPreview()
+        super.onResume()
     }
 
 }

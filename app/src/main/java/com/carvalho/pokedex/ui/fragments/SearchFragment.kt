@@ -38,10 +38,7 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
     ): View? {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
 
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-        isLoadingFalse()
-        setupLayout()
 
         viewModel.responsePokemonSearch.observe(viewLifecycleOwner) {
             list.add(buildPokeTransfer(it.body()!!))
@@ -50,13 +47,15 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
         binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 list.clear()
+                setupLayout()
+                setAdapter()
                 if (!query.isNullOrBlank()) {
-                    getContents(query)
+                    getContents(query.lowercase())
                     includeContentsInPage()
                 } else {
                     Toast.makeText(context, "Nada foi digítado", Toast.LENGTH_SHORT).show()
                 }
-                return false
+                return true
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
@@ -136,4 +135,11 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
         findNavController().navigate(R.id.action_searchFragment_to_pokemonFragment)
     }
 
+    override fun onResume() {
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        isLoadingFalse()
+        setupLayout()
+
+        super.onResume()
+    }
 }

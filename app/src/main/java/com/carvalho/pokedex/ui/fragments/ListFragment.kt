@@ -28,7 +28,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     private lateinit var binding: FragmentListBinding
     private val viewModel: MainViewModel by activityViewModels()
 
-    private var page = 0
+    private var page: Int = 0
     private var isLoading = false
     private var limite = 25
     private var list: MutableList<PokeTransfer> = mutableListOf()
@@ -42,12 +42,11 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     ): View? {
         binding = FragmentListBinding.inflate(layoutInflater, container, false)
 
-        setupLayoutList()
-        getContentsForList()
-        includeContentsInPage()
-
         viewModel.responsePokemon.observe(viewLifecycleOwner) {
-            list.add(buildPokeTransfer(it.body()!!))
+            val pokeTransfer = buildPokeTransfer(it.body()!!)
+            if (!list.contains(pokeTransfer)) {
+                list.add(pokeTransfer)
+            }
         }
 
         binding.rvListPokemon.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -110,9 +109,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
         binding.rvListPokemon.layoutManager = layoutManager
     }
 
-
     private fun getContentsForList() {
-
         val start = ((page) * limite) + 1
         val end = (page + 1) * limite
 
@@ -147,7 +144,15 @@ class ListFragment : Fragment(), PokemonItemClickListener {
         findNavController().navigate(
             R.id.action_listFragment_to_pokemonFragment
         )
+    }
 
+    override fun onResume() {
+        page = 0
+        setupLayoutList()
+        getContentsForList()
+        includeContentsInPage()
+
+        super.onResume()
     }
 }
 

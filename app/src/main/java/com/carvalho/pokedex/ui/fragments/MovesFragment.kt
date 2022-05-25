@@ -35,12 +35,6 @@ class MovesFragment : Fragment() {
     ): View? {
         binding = FragmentMovesBinding.inflate(layoutInflater, container, false)
 
-        getContentsForMoves()
-        recoverDataAbilityAndMoves()
-
-        setupLayoutAbility()
-        setupLayoutMoves()
-
         return binding.root
     }
 
@@ -97,10 +91,6 @@ class MovesFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        setProperHeightOfView()
-    }
 
     private fun setProperHeightOfView() {
         val layoutView = view
@@ -111,5 +101,19 @@ class MovesFragment : Fragment() {
                 layoutView.requestLayout()
             }
         }
+    }
+
+    override fun onResume() {
+
+        getContentsForMoves()
+        recoverDataAbilityAndMoves()
+
+        setupLayoutAbility()
+        setupLayoutMoves()
+
+        setProperHeightOfView()
+
+        super.onResume()
+
     }
 }

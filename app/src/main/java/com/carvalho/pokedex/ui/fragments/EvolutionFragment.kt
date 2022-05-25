@@ -46,8 +46,6 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
     ): View? {
         binding = FragmentEvolutionBinding.inflate(layoutInflater, container, false)
 
-        setupLayoutList()
-
         viewModel.pokemonSelec.observe(viewLifecycleOwner) {
             setPokemon(it.body()!!)
             recoverDataPokemonAndSpecie()
@@ -217,11 +215,6 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        setProperHeightOfView()
-    }
-
     private fun setProperHeightOfView() {
         val layoutView = view
         if (layoutView != null) {
@@ -232,6 +225,14 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
             }
         }
     }
+
+    override fun onResume() {
+        setupLayoutList()
+        setProperHeightOfView()
+
+        super.onResume()
+    }
+
 
 }
 

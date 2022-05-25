@@ -38,12 +38,7 @@ class DataFragment : Fragment() {
     ): View? {
         binding = FragmentDataBinding.inflate(layoutInflater, container, false)
 
-        getContents()
-        recoverDataTypesStats()
 
-        setHeightAndWeight()
-        setupLayoutTypes()
-        setupLayoutStats()
 
         return binding.root
     }
@@ -122,5 +117,16 @@ class DataFragment : Fragment() {
                 layoutView.requestLayout()
             }
         }
+    }
+
+    override fun onStart() {
+        getContents()
+        recoverDataTypesStats()
+
+        setHeightAndWeight()
+        setupLayoutTypes()
+        setupLayoutStats()
+
+        super.onStart()
     }
 }
