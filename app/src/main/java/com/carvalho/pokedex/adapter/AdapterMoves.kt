@@ -4,10 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.carvalho.pokedex.adapter.helpers.MovesClickListener
 import com.carvalho.pokedex.databinding.CardviewMovesBinding
 import com.carvalho.pokedex.model.pokemon.move.PokemonMove
 
-class AdapterMoves(val context: Context) :
+class AdapterMoves(val context: Context, private val movesClickListener: MovesClickListener) :
     RecyclerView.Adapter<AdapterMoves.PokemonViewHolder>() {
 
     var pokemon = emptyList<PokemonMove>()
@@ -27,6 +28,10 @@ class AdapterMoves(val context: Context) :
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         holder.binding.tvMoves.text =
             pokemon[position].move.name.replaceFirstChar { it.uppercase() }
+
+        holder.itemView.setOnClickListener {
+            movesClickListener.onMoveClicked(pokemon[position].move.name)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -37,5 +42,6 @@ class AdapterMoves(val context: Context) :
         pokemon = list
         notifyDataSetChanged()
     }
+
 
 }

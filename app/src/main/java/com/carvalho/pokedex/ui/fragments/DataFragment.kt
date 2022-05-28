@@ -2,6 +2,7 @@ package com.carvalho.pokedex.ui.fragments
 
 import android.R
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,9 @@ class DataFragment : Fragment() {
     ): View? {
         binding = FragmentDataBinding.inflate(layoutInflater, container, false)
 
-
+        viewModel.responsePokemonSpecie.observe(viewLifecycleOwner) {
+            setDescription(it.body()!!.flavor_text_entries.first().flavor_text)
+        }
 
         return binding.root
     }
@@ -46,6 +49,11 @@ class DataFragment : Fragment() {
     private fun recoverDataTypesStats() {
         listTypes.addAll(pokemonSelec!!.types)
         listStats.addAll(pokemonSelec!!.stats)
+        viewModel.getSpecieByName(viewModel.pokeTransfer!!.name)
+    }
+
+    private fun setDescription(description: String) {
+        binding.tvDescription.text = description.replace("\n", " ")
     }
 
     private fun setHeightAndWeight() {
@@ -69,7 +77,7 @@ class DataFragment : Fragment() {
     }
 
     private fun setupLayoutTypes() {
-        setupLayouts(binding.rvStatus, GridLayoutManager(context, 2))
+        setupLayouts(binding.rvStatus, GridLayoutManager(context, listTypes.size))
         getTypes()
     }
 

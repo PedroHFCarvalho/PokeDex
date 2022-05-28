@@ -1,6 +1,7 @@
 package com.carvalho.pokedex.data
 
 import com.carvalho.pokedex.model.evolution.chains.EvolutionChain
+import com.carvalho.pokedex.model.moves.Move
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.species.PokemonSpecies
 import retrofit2.Response
@@ -20,4 +21,7 @@ interface ApiService {
 
     @GET("evolution-chain/{id}")
     suspend fun getEvolutionByID(@Path("id") id: Int): Response<EvolutionChain>
+
+    @GET("move/{name}")
+    suspend fun getDataMove(@Path("name") name: String): Response<Move>
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.adapter.AdapterAbility
 import com.carvalho.pokedex.adapter.AdapterMoves
+import com.carvalho.pokedex.adapter.helpers.MovesClickListener
 import com.carvalho.pokedex.databinding.FragmentMovesBinding
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.pokemon.ability.PokemonAbility
 import com.carvalho.pokedex.model.pokemon.move.PokemonMove
 
-class MovesFragment : Fragment() {
+class MovesFragment : Fragment(), MovesClickListener {
 
     private lateinit var binding: FragmentMovesBinding
     private val viewModel: MainViewModel by activityViewModels()
@@ -35,6 +37,12 @@ class MovesFragment : Fragment() {
     ): View? {
         binding = FragmentMovesBinding.inflate(layoutInflater, container, false)
 
+        getContentsForMoves()
+        recoverDataAbilityAndMoves()
+
+        setupLayoutAbility()
+        setupLayoutMoves()
+
         return binding.root
     }
 
@@ -45,6 +53,7 @@ class MovesFragment : Fragment() {
     private fun recoverDataAbilityAndMoves() {
         listAbility.addAll(pokemonSelec!!.abilities)
         listMove.addAll(pokemonSelec!!.moves)
+
     }
 
     private fun setupLayouts(
@@ -82,12 +91,12 @@ class MovesFragment : Fragment() {
         if (::pokemonAdapterMove.isInitialized) {
             pokemonAdapterMove.setList(listMove)
         } else {
-            pokemonAdapterMove = AdapterMoves(requireContext())
+            pokemonAdapterMove = AdapterMoves(requireContext(), this)
             binding.rvMoves.adapter = pokemonAdapterMove
             pokemonAdapterMove.setList(listMove)
         }
         for (i in 0..listMove.size) {
-            AdapterMoves(requireContext()).setList(listMove)
+            AdapterMoves(requireContext(), this).setList(listMove)
         }
     }
 
@@ -103,17 +112,16 @@ class MovesFragment : Fragment() {
         }
     }
 
+    override fun onMoveClicked(name: String) {
+        viewModel.moveSelec = name
+        var dialog = MoveDialogFragment(view?.width!!)
+        dialog.show(parentFragmentManager, MoveDialogFragment(view?.width!!).tag)
+
+    }
+
     override fun onResume() {
 
-        getContentsForMoves()
-        recoverDataAbilityAndMoves()
-
-        setupLayoutAbility()
-        setupLayoutMoves()
-
         setProperHeightOfView()
-
         super.onResume()
-
     }
 }

@@ -64,6 +64,13 @@
             app:layout_constraintTop_toBottomOf="@+id/imBackgroundType"
             tools:text="Nome" />
 
+        <TextView
+            android:id="@+id/tvNumOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            tools:text="#001" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tlNavPokemon"
             android:layout_width="match_parent"

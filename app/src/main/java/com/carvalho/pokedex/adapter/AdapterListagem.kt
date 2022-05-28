@@ -44,12 +44,10 @@ class AdapterListagem(
 
         holder.binding.clBackground.setBackgroundColor(getColor(context!!, color))
 
-        if (pokemon[position].id.toString().length == 1) {
-            holder.binding.tvOrder.text = "#00${pokemon[position].id}"
-        } else if (pokemon[position].id.toString().length == 2) {
-            holder.binding.tvOrder.text = "#0${pokemon[position].id}"
-        } else {
-            holder.binding.tvOrder.text = "#${pokemon[position].id}"
+        when (pokemon[position].id.toString().length) {
+            1 -> holder.binding.tvOrder.text = "#00${pokemon[position].id}"
+            2 -> holder.binding.tvOrder.text = "#0${pokemon[position].id}"
+            else -> holder.binding.tvOrder.text = "#${pokemon[position].id}"
         }
 
         holder.binding.tvPokeomonNome.text =

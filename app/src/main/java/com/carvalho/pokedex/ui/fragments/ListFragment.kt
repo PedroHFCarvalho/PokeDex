@@ -31,7 +31,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
 
     private var page: Int = 0
     private var isLoading = false
-    private var limite = 25
+    private var limite = 35
     private var list: MutableList<PokeTransfer> = mutableListOf()
 
     private lateinit var pokemonAdapter: AdapterListagem
@@ -91,7 +91,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
                 setListInAdapter()
             }
             isLoadingFalse()
-        }, 1500)
+        }, 2000)
     }
 
     private fun setAdapter() {

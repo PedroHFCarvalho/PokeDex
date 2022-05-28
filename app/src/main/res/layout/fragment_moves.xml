@@ -27,23 +27,30 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:text="Ability"
-                app:layout_constraintStart_toStartOf="@+id/rvAbility"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvFixoHidden"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:text="HIdden"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvFixoAbility"
-                app:layout_constraintEnd_toEndOf="@+id/rvAbility"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvFixoAbility" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAbility"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
                 android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -56,26 +63,30 @@
                 android:id="@+id/tvFixoMoves"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Moves"
-                app:layout_constraintStart_toStartOf="@+id/rvMoves"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/tvFixoAbility"
                 app:layout_constraintTop_toBottomOf="@+id/rvAbility" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMoves"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="56dp"
                 android:nestedScrollingEnabled="false"
                 android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFixoMoves"
                 tools:listitem="@layout/cardview_moves" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

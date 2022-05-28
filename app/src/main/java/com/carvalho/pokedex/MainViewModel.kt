@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.carvalho.pokedex.model.evolution.chains.EvolutionChain
+import com.carvalho.pokedex.model.moves.Move
 import com.carvalho.pokedex.model.pokemon.PokeTransfer
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.species.PokemonSpecies
@@ -38,10 +39,14 @@ class MainViewModel @Inject constructor(
         MutableLiveData<Response<Pokemon>>()
     var responsePokemonEvolution: LiveData<Response<Pokemon>> = _responsePokemonEvolution
 
-    var pokeTransfer: PokeTransfer? = null
-
     private val _pokemonSelec = MutableLiveData<Response<Pokemon>>()
     var pokemonSelec: LiveData<Response<Pokemon>> = _pokemonSelec
+
+    private val _dataMove = MutableLiveData<Response<Move>>()
+    var dataMove: LiveData<Response<Move>> = _dataMove
+
+    var moveSelec: String? = null
+    var pokeTransfer: PokeTransfer? = null
 
     fun getPokemonByNumber(number: Int) {
         viewModelScope.launch {
@@ -102,7 +107,18 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response = repository.getEvolutionByID(id)
-                _responseEvolution?.value = response
+                _responseEvolution.value = response
+            } catch (e: Exception) {
+                Log.e("Err", e.message.toString())
+            }
+        }
+    }
+
+    fun getDataMove(name: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getDataMove(name)
+                _dataMove.value = response
             } catch (e: Exception) {
                 Log.e("Err", e.message.toString())
             }

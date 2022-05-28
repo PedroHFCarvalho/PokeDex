@@ -1,6 +1,7 @@
 package com.carvalho.pokedex.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,11 +60,20 @@ class PokemonFragment : Fragment() {
                 )
             )
             setupLayoutCarousel()
+            setNumOrder()
         }
     }
 
     private fun getContentsForPreview() {
         viewModel.getPokemonByNameForPreview(viewModel.pokeTransfer!!.name)
+    }
+
+    private fun setNumOrder() {
+        when (pokemonSelec!!.id.toString().length) {
+            1 -> binding.tvNumOrder.text = "#00${pokemonSelec!!.id}"
+            2 -> binding.tvNumOrder.text = "#0${pokemonSelec!!.id}"
+            else -> binding.tvNumOrder.text = "#${pokemonSelec!!.id}"
+        }
     }
 
     private fun setupLayoutMenu() {
@@ -82,7 +92,7 @@ class PokemonFragment : Fragment() {
 
         binding.carouselPokemon.adapter = adapterCarousel
 
-        binding.carouselPokemon.setInfinite(true)
+        binding.carouselPokemon.setInfinite(false)
         binding.carouselPokemon.set3DItem(false)
         binding.carouselPokemon.setIntervalRatio(1F)
         binding.carouselPokemon.setAlpha(true)

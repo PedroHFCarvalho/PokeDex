@@ -28,20 +28,35 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:text="Types:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvHeight"
                 tools:text="Types:" />
+
+            <TextView
+                android:id="@+id/tvFixoType2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Description:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Description:" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTypes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFixoType"
-                app:spanCount="2"
                 tools:itemCount="2"
                 tools:listitem="@layout/cardview_types" />
 
@@ -49,11 +64,13 @@
                 android:id="@+id/tvFixiHeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="96dp"
+                android:layout_marginTop="24dp"
                 android:text="Height:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
             <TextView
                 android:id="@+id/tvFixoWeight"
@@ -61,6 +78,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="100dp"
                 android:text="Weight:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvFixiHeight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvFixiHeight"
@@ -70,8 +89,8 @@
                 android:id="@+id/tvHeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginTop="8dp"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="@+id/tvFixiHeight"
                 app:layout_constraintStart_toStartOf="@+id/tvFixiHeight"
                 app:layout_constraintTop_toBottomOf="@+id/tvFixiHeight"
@@ -81,7 +100,7 @@
                 android:id="@+id/tvWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvHeight"
                 app:layout_constraintEnd_toEndOf="@+id/tvFixoWeight"
                 app:layout_constraintStart_toStartOf="@+id/tvFixoWeight"
@@ -97,6 +116,7 @@
                 android:layout_marginEnd="16dp"
                 android:scrollbars="none"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFixoStatus"
@@ -110,9 +130,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Status:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/tvFixoType"
                 app:layout_constraintTop_toBottomOf="@+id/rvTypes"
                 tools:text="Status:" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFixoType2"
+                tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -2,6 +2,7 @@ package com.carvalho.pokedex.repository
 
 import com.carvalho.pokedex.data.RetrofitInstance
 import com.carvalho.pokedex.model.evolution.chains.EvolutionChain
+import com.carvalho.pokedex.model.moves.Move
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.species.PokemonSpecies
 import retrofit2.Response
@@ -22,5 +23,9 @@ class Repository {
 
     suspend fun getEvolutionByID(id: Int): Response<EvolutionChain> {
         return RetrofitInstance.api.getEvolutionByID(id)
+    }
+
+    suspend fun getDataMove(name: String): Response<Move> {
+        return RetrofitInstance.api.getDataMove(name)
     }
 }
