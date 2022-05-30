@@ -14,7 +14,7 @@
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/searchview_background.xml" value="0.1" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/drawable/toolbar_gradiente.xml" value="0.2065" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout-v31/cardview_preview.xml" value="0.33" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_ability.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_evolution.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/cardview_moves.xml" value="0.33" />
@@ -25,7 +25,7 @@
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/dialog_moves.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_data.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_data_moves.xml" value="0.36102564102564105" />
-        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_evolution.xml" value="0.1" />
+        <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_evolution.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_list.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_moves.xml" value="0.33" />
         <entry key="..\:/Users/Pedro-PC/Desktop/PokeDex/app/src/main/res/layout/fragment_pokemon.xml" value="0.33" />

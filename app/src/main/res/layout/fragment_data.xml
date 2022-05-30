@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.DataFragment">
@@ -21,30 +20,43 @@
             android:layout_height="wrap_content">
 
 
-            <TextView
-                android:id="@+id/tvFixoType"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glLeftData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glRightData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
+
+            <TextView
+                android:id="@+id/tvFixoType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Types:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/glRightData"
+                app:layout_constraintStart_toStartOf="@+id/glLeftData"
                 app:layout_constraintTop_toBottomOf="@+id/tvHeight"
                 tools:text="Types:" />
 
             <TextView
                 android:id="@+id/tvFixoType2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:text="Description:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/glRightData"
+                app:layout_constraintStart_toStartOf="@+id/glLeftData"
+                app:layout_constraintTop_toTopOf="@+id/glTopData"
                 tools:text="Description:" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -54,8 +66,8 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/glRightData"
+                app:layout_constraintStart_toStartOf="@+id/glLeftData"
                 app:layout_constraintTop_toBottomOf="@+id/tvFixoType"
                 tools:itemCount="2"
                 tools:listitem="@layout/cardview_types" />
@@ -64,24 +76,24 @@
                 android:id="@+id/tvFixiHeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="100dp"
                 android:layout_marginTop="24dp"
                 android:text="Height:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/glLeftData"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
             <TextView
                 android:id="@+id/tvFixoWeight"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="100dp"
                 android:text="Weight:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvFixiHeight"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/glRightData"
                 app:layout_constraintTop_toTopOf="@+id/tvFixiHeight"
                 app:layout_constraintVertical_bias="1.0" />
 
@@ -111,14 +123,13 @@
                 android:id="@+id/rvStatus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="4dp"
                 android:scrollbars="none"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/glBottomData"
+                app:layout_constraintEnd_toStartOf="@+id/glRightData"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/glLeftData"
                 app:layout_constraintTop_toBottomOf="@+id/tvFixoStatus"
                 app:spanCount="1"
                 tools:itemCount="6"
@@ -126,13 +137,14 @@
 
             <TextView
                 android:id="@+id/tvFixoStatus"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="Status:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/tvFixoType"
+                app:layout_constraintEnd_toStartOf="@+id/glRightData"
+                app:layout_constraintStart_toStartOf="@+id/glLeftData"
                 app:layout_constraintTop_toBottomOf="@+id/rvTypes"
                 tools:text="Status:" />
 
@@ -140,18 +152,29 @@
                 android:id="@+id/tvDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/glRightData"
+                app:layout_constraintStart_toStartOf="@+id/glLeftData"
                 app:layout_constraintTop_toBottomOf="@+id/tvFixoType2"
                 tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glTopData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="20dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glBottomData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="20dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,4 +20,6 @@ data class Move(
     val type: NamedAPIResource,
     @SerializedName("flavor_text_entries")
     val flavorTextEntries: List<MoveFlavorText>,
+    @SerializedName("effect_entries")
+    val effectEntries: List<VerboseEffect>,
 )

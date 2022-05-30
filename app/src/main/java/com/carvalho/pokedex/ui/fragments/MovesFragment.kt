@@ -100,7 +100,6 @@ class MovesFragment : Fragment(), MovesClickListener {
         }
     }
 
-
     private fun setProperHeightOfView() {
         val layoutView = view
         if (layoutView != null) {

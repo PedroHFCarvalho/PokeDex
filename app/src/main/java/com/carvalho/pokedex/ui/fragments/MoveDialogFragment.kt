@@ -1,7 +1,5 @@
 package com.carvalho.pokedex.ui.fragments
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,7 +28,7 @@ class MoveDialogFragment(private val width: Int) : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DialogMovesBinding.inflate(layoutInflater, container, false)
-        binding.clDialog.minWidth = width - 100
+        binding.clDialog.minWidth = width - 200
 
         viewModel.dataMove.observe(viewLifecycleOwner) {
             if (it.body() != null) {
@@ -39,7 +37,6 @@ class MoveDialogFragment(private val width: Int) : DialogFragment() {
                 Log.d("move", move.toString())
             }
         }
-
         return binding.root
     }
 
@@ -51,7 +48,13 @@ class MoveDialogFragment(private val width: Int) : DialogFragment() {
 
     private fun buildContentDialog(move: Move) {
         binding.tvDescriptionMove.text =
-            move.flavorTextEntries.first().flavor_text.replace("\n", " ")
+            move.flavorTextEntries.first().flavor_text
+                .replace("\n", " ")
+        binding.tvDescriptionEffect.text =
+            move.effectEntries.first().effect
+                .replace("\n", " ")
+                .replace("\$effect_chance%", move.effectChance.toString())
+                .replace("*", "\n*")
         binding.tvNameMove.text = move.name.replaceFirstChar { char -> char.uppercase() }
         binding.tvAccuracy.text = move.accuracy.toString()
         binding.tvPower.text = move.power.toString()
@@ -80,8 +83,8 @@ class MoveDialogFragment(private val width: Int) : DialogFragment() {
     }
 
     override fun onResume() {
-        recoverData()
         listTypes.clear()
+        recoverData()
         super.onResume()
     }
 
