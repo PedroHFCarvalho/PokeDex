@@ -2,51 +2,44 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvPreview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="3dp"
     android:layout_marginTop="5dp"
     android:layout_marginEnd="2dp"
-    app:cardBackgroundColor="@android:color/transparent"
+    app:cardBackgroundColor="@color/fire"
     app:cardCornerRadius="8dp"
     app:cardElevation="0dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/clBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToOutline="true"
+        app:srcCompat="@drawable/imageview_cardviewpreview" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/clBackground"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/bug"
-            android:clipToOutline="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/imageview_cardviewpreview" />
-
         <TextView
             android:id="@+id/tvOrder"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="5dp"
             android:autoSizeTextType="uniform"
             android:gravity="bottom|end"
             android:maxLines="1"
             android:textAlignment="viewEnd"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#26FFFFFF"
+            android:textColor="#33FFFFFF"
             android:textStyle="bold|italic"
-            app:layout_constraintBottom_toBottomOf="@+id/clBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/imPokemonCard"
-            app:layout_constraintTop_toTopOf="@+id/clBackground"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="#001" />
 
         <ImageView

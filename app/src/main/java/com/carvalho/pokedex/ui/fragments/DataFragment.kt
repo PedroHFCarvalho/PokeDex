@@ -1,8 +1,6 @@
 package com.carvalho.pokedex.ui.fragments
 
-import android.R
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +13,7 @@ import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.adapter.AdapterStatus
 import com.carvalho.pokedex.adapter.AdapterTypes
 import com.carvalho.pokedex.databinding.FragmentDataBinding
+import com.carvalho.pokedex.model.commonModel.FlavorText
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.pokemon.stat.PokemonStat
 import com.carvalho.pokedex.model.pokemon.type.PokemonType
@@ -40,7 +39,7 @@ class DataFragment : Fragment() {
         binding = FragmentDataBinding.inflate(layoutInflater, container, false)
 
         viewModel.responsePokemonSpecie.observe(viewLifecycleOwner) {
-            setDescription(it.body()!!.flavor_text_entries.first().flavor_text)
+            setDescription(it.body()!!.flavor_text_entries.find { desc -> desc.language.name == "en" }?.flavor_text)
         }
 
         return binding.root
@@ -52,8 +51,10 @@ class DataFragment : Fragment() {
         viewModel.getSpecieByName(viewModel.pokeTransfer!!.name)
     }
 
-    private fun setDescription(description: String) {
-        binding.tvDescription.text = description.replace("\n", " ")
+    private fun setDescription(description: String?) {
+        if (description != null) {
+            binding.tvDescription.text = description.replace("\n", " ")
+        }
     }
 
     private fun setHeightAndWeight() {

@@ -1,8 +1,11 @@
 package com.carvalho.pokedex.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
@@ -34,24 +37,25 @@ class AdapterListagem(
         return PokemonViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
+
+        holder.binding.tvPokeomonNome.text =
+            pokemon[position].name.replaceFirstChar { it.uppercase() }
 
         Glide.with(holder.itemView.context)
             .load(pokemon[position].sprites.front_default)
             .into(holder.binding.imPokemonCard)
 
         val color = PokemonSetBackgroudColor.setColor(pokemon[position].types[0].type.name)
+        holder.binding.cvPreview.setCardBackgroundColor(getColor(context!!, color))
 
-        holder.binding.clBackground.setBackgroundColor(getColor(context!!, color))
-
+        val order = pokemon[position].id
         when (pokemon[position].id.toString().length) {
-            1 -> holder.binding.tvOrder.text = "#00${pokemon[position].id}"
-            2 -> holder.binding.tvOrder.text = "#0${pokemon[position].id}"
-            else -> holder.binding.tvOrder.text = "#${pokemon[position].id}"
+            1 -> holder.binding.tvOrder.text = "#00$order"
+            2 -> holder.binding.tvOrder.text = "#0$order"
+            else -> holder.binding.tvOrder.text = "#$order"
         }
-
-        holder.binding.tvPokeomonNome.text =
-            pokemon[position].name.replaceFirstChar { it.uppercase() }
 
         holder.itemView.setOnClickListener {
             pokemonItemClickListener.onPokemonClicked(pokemon[position])
@@ -64,8 +68,9 @@ class AdapterListagem(
     }
 
     fun setList(list: List<PokeTransfer>) {
+        val oldSize = pokemon.size
         pokemon.addAll(list)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(oldSize, pokemon.size)
     }
 
 }

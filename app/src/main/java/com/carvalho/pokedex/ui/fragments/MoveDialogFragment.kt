@@ -34,7 +34,6 @@ class MoveDialogFragment(private val width: Int) : DialogFragment() {
             if (it.body() != null) {
                 val move = it.body()
                 buildContentDialog(move!!)
-                Log.d("move", move.toString())
             }
         }
         return binding.root
@@ -51,7 +50,7 @@ class MoveDialogFragment(private val width: Int) : DialogFragment() {
             move.flavorTextEntries.first().flavor_text
                 .replace("\n", " ")
         binding.tvDescriptionEffect.text =
-            move.effectEntries.first().effect
+            move.effectEntries.find { it.language.name == "en" }!!.effect
                 .replace("\n", " ")
                 .replace("\$effect_chance%", move.effectChance.toString())
                 .replace("*", "\n*")

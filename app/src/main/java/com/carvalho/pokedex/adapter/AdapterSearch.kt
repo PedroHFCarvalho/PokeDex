@@ -43,14 +43,13 @@ class AdapterSearch (private val pokemonItemClickListener: PokemonItemClickListe
     }
 
     fun setList(list: List<PokeTransfer>) {
-
         pokemon = list.distinctBy {
             it.id
         }
         pokemon.sortedBy {
             it.id
         }
-        notifyDataSetChanged()
+        notifyItemInserted(pokemon.size)
     }
 
 }

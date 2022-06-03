@@ -3,15 +3,12 @@ package com.carvalho.pokedex.ui.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.transition.TransitionInflater
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +28,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
 
     private var page: Int = 0
     private var isLoading = false
-    private var limite = 35
+    private var limite = 30
     private var list: MutableList<PokeTransfer> = mutableListOf()
 
     private lateinit var pokemonAdapter: AdapterListagem
@@ -47,6 +44,9 @@ class ListFragment : Fragment(), PokemonItemClickListener {
             val pokeTransfer = buildPokeTransfer(it.body()!!)
             if (!list.contains(pokeTransfer)) {
                 list.add(pokeTransfer)
+            }
+            if (list.size == 30) {
+                includeContentsInPage()
             }
         }
 
@@ -90,8 +90,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
                 setAdapter()
                 setListInAdapter()
             }
-            isLoadingFalse()
-        }, 2000)
+        }, 500)
     }
 
     private fun setAdapter() {
@@ -101,12 +100,13 @@ class ListFragment : Fragment(), PokemonItemClickListener {
 
     private fun setListInAdapter() {
         pokemonAdapter.setList(list.sortedBy { it.order })
+        isLoadingFalse()
         list.clear()
     }
 
     private fun setupLayoutList() {
         binding.rvListPokemon.setHasFixedSize(true)
-        layoutManager = GridLayoutManager(context, 3)
+        layoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvListPokemon.layoutManager = layoutManager
     }
 
@@ -149,11 +149,10 @@ class ListFragment : Fragment(), PokemonItemClickListener {
 
     override fun onResume() {
         page = 0
+        isLoadingTrue()
         setupLayoutList()
         getContentsForList()
-        includeContentsInPage()
 
         super.onResume()
     }
 }
-

@@ -39,19 +39,28 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
 
         viewModel.responsePokemonSearch.observe(viewLifecycleOwner) {
-            list.add(buildPokeTransfer(it.body()!!))
+            isLoadingTrue()
+            if (it.body() != null) {
+                list.add(buildPokeTransfer(it.body()!!))
+                includeContentsInPage()
+                isLoadingFalse()
+            } else {
+                notFound()
+                list.clear()
+                isLoadingFalse()
+            }
         }
 
         binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                isLoadingTrue()
                 list.clear()
                 setupLayout()
                 setAdapter()
                 if (!query.isNullOrBlank()) {
                     getContents(query.lowercase())
-                    includeContentsInPage()
                 } else {
-                    Toast.makeText(context, "Nada foi digítado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Nothing was typed", Toast.LENGTH_SHORT).show()
                 }
                 return true
             }
@@ -75,7 +84,7 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
 
     private fun isLoadingTrue() {
         isLoading = true
-        binding.inLoadingSearch.pbPaginationList.visibility = View.INVISIBLE
+        binding.inLoadingSearch.pbPaginationList.visibility = View.VISIBLE
     }
 
     private fun isLoadingFalse() {
@@ -94,28 +103,23 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
     }
 
     private fun includeContentsInPage() {
-        isLoadingTrue()
-        Handler(Looper.myLooper() ?: return).postDelayed({
-            if (::pokemonAdapter.isInitialized) {
-                if (binding.rvSearches.adapter == null) {
-                    setAdapter()
-                    setListInAdapter()
-                    notFound()
-                } else {
-                    setListInAdapter()
-                }
-            } else {
+        if (::pokemonAdapter.isInitialized) {
+            if (binding.rvSearches.adapter == null) {
                 setAdapter()
                 setListInAdapter()
-                notFound()
+
+            } else {
+                setListInAdapter()
             }
-            isLoadingFalse()
-        }, 500)
+        } else {
+            setAdapter()
+            setListInAdapter()
+        }
     }
 
     private fun notFound() {
         if (list.isEmpty()) {
-            Toast.makeText(context, "Não foi encontrado nada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Nothing was found", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -137,7 +141,6 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         isLoadingFalse()
         setupLayout()
-
         super.onResume()
     }
 }
