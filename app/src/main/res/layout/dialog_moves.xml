@@ -52,12 +52,17 @@
 
             <TextView
                 android:id="@+id/tvNameMove"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:lines="2"
+                android:maxLines="2"
+                android:minLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintEnd_toStartOf="@+id/rvTypesDialog"
                 app:layout_constraintStart_toStartOf="@+id/glLeftDialog"
                 app:layout_constraintTop_toTopOf="@+id/glTopDialog"
-                tools:text="Move" />
+                tools:text="Move"
+                android:ellipsize="end"/>
 
             <TextView
                 android:id="@+id/tvFixoDescription"

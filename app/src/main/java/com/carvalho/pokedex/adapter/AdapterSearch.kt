@@ -9,7 +9,8 @@ import com.carvalho.pokedex.databinding.CardviewSearchBinding
 import com.carvalho.pokedex.model.pokemon.PokeTransfer
 import com.carvalho.pokedex.model.pokemon.Pokemon
 
-class AdapterSearch (private val pokemonItemClickListener: PokemonItemClickListener): RecyclerView.Adapter<AdapterSearch.PokemonViewHolder>() {
+class AdapterSearch(private val pokemonItemClickListener: PokemonItemClickListener) :
+    RecyclerView.Adapter<AdapterSearch.PokemonViewHolder>() {
 
     var pokemon = emptyList<PokeTransfer>()
 
@@ -31,6 +32,8 @@ class AdapterSearch (private val pokemonItemClickListener: PokemonItemClickListe
 
         holder.binding.tvPokemonSearch.text =
             pokemon[position].name.replaceFirstChar { it.uppercase() }
+                .replace("-m", "♂")
+                .replace("-f", "♀")
 
         holder.itemView.setOnClickListener {
             pokemonItemClickListener.onPokemonClicked(pokemon[position])

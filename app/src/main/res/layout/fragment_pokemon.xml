@@ -20,6 +20,7 @@
             app:layout_scrollFlags="scroll|enterAlways">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clBackgroundCarousel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -35,9 +36,7 @@
                     app:layout_constraintTop_toTopOf="@+id/carouselPokemon"
                     app:layout_constraintVertical_bias="1.0"
                     app:shapeAppearanceOverlay="@style/imageview_backgound_radius"
-                    app:srcCompat="@drawable/imageview_cardviewpreview"
-                    tools:src="@color/electric"
-                    tools:srcCompat="@drawable/imageview_cardviewpreview" />
+                    app:srcCompat="@drawable/imageview_cardviewpreview" />
 
                 <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
                     android:id="@+id/carouselPokemon"

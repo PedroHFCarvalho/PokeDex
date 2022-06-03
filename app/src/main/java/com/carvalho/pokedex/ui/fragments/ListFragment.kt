@@ -30,6 +30,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     private var isLoading = false
     private var limite = 30
     private var list: MutableList<PokeTransfer> = mutableListOf()
+    private var legacyList: MutableList<PokeTransfer> = mutableListOf()
 
     private lateinit var pokemonAdapter: AdapterListagem
     private lateinit var layoutManager: GridLayoutManager
@@ -77,7 +78,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     }
 
     private fun includeContentsInPage() {
-        isLoadingTrue()
+        isLoading = true
         Handler(Looper.getMainLooper()).postDelayed({
             if (::pokemonAdapter.isInitialized) {
                 if (binding.rvListPokemon.adapter == null) {
@@ -149,10 +150,12 @@ class ListFragment : Fragment(), PokemonItemClickListener {
 
     override fun onResume() {
         page = 0
+        getContentsForList()
         isLoadingTrue()
         setupLayoutList()
-        getContentsForList()
 
         super.onResume()
     }
+
+
 }

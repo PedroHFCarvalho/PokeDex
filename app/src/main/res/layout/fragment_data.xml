@@ -28,6 +28,15 @@
                 app:layout_constraintGuide_begin="16dp" />
 
             <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glCenter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintGuide_percent="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/glRightData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,24 +85,24 @@
                 android:id="@+id/tvFixiHeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
                 android:layout_marginTop="24dp"
                 android:text="Height:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/glCenter"
                 app:layout_constraintStart_toStartOf="@+id/glLeftData"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
             <TextView
                 android:id="@+id/tvFixoWeight"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="100dp"
                 android:text="Weight:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvFixiHeight"
                 app:layout_constraintEnd_toStartOf="@+id/glRightData"
+                app:layout_constraintStart_toStartOf="@+id/glCenter"
                 app:layout_constraintTop_toTopOf="@+id/tvFixiHeight"
                 app:layout_constraintVertical_bias="1.0" />
 

@@ -28,7 +28,7 @@ class MoveDialogFragment(private val width: Int) : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DialogMovesBinding.inflate(layoutInflater, container, false)
-        binding.clDialog.minWidth = width - 200
+        binding.clDialog.minWidth = width - 100
 
         viewModel.dataMove.observe(viewLifecycleOwner) {
             if (it.body() != null) {
