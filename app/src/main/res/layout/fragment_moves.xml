@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="HIdden"
+                android:text="Hidden"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvFixoAbility"

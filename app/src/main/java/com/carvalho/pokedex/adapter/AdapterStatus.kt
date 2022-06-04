@@ -3,12 +3,9 @@ package com.carvalho.pokedex.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.carvalho.pokedex.adapter.helpers.PokemonSetBackgroudColor
 import com.carvalho.pokedex.databinding.CardviewStatusBinding
 import com.carvalho.pokedex.model.pokemon.stat.PokemonStat
-import com.carvalho.pokedex.model.pokemon.type.PokemonType
 
 class AdapterStatus(val context: Context) :
     RecyclerView.Adapter<AdapterStatus.PokemonViewHolder>() {

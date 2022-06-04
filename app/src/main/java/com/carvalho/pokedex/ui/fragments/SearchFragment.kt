@@ -140,7 +140,6 @@ class SearchFragment : Fragment(), PokemonItemClickListener {
     override fun onResume() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         isLoadingFalse()
-        setupLayout()
         super.onResume()
     }
 }

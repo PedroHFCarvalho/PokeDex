@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.adapter.AdapterAbility
 import com.carvalho.pokedex.adapter.AdapterMoves
+import com.carvalho.pokedex.adapter.helpers.AbilityClickListener
 import com.carvalho.pokedex.adapter.helpers.MovesClickListener
 import com.carvalho.pokedex.databinding.FragmentMovesBinding
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.pokemon.ability.PokemonAbility
 import com.carvalho.pokedex.model.pokemon.move.PokemonMove
 
-class MovesFragment : Fragment(), MovesClickListener {
+class MovesFragment : Fragment(), MovesClickListener, AbilityClickListener {
 
     private lateinit var binding: FragmentMovesBinding
     private val viewModel: MainViewModel by activityViewModels()
@@ -78,12 +79,12 @@ class MovesFragment : Fragment(), MovesClickListener {
         if (::pokemonAdapterAbility.isInitialized) {
             pokemonAdapterAbility.setList(listAbility)
         } else {
-            pokemonAdapterAbility = AdapterAbility(requireContext())
+            pokemonAdapterAbility = AdapterAbility(requireContext(),this)
             binding.rvAbility.adapter = pokemonAdapterAbility
             pokemonAdapterAbility.setList(listAbility)
         }
         for (i in 0..listAbility.size) {
-            AdapterAbility(requireContext()).setList(listAbility)
+            AdapterAbility(requireContext(),this).setList(listAbility)
         }
     }
 
@@ -113,8 +114,15 @@ class MovesFragment : Fragment(), MovesClickListener {
 
     override fun onMoveClicked(name: String) {
         viewModel.moveSelec = name
-        var dialog = MoveDialogFragment(view?.width!!)
+        val dialog = MoveDialogFragment(view?.width!!)
         dialog.show(parentFragmentManager, MoveDialogFragment(view?.width!!).tag)
+
+    }
+
+    override fun onAbilityClicked(name: String) {
+        viewModel.abilitySelec = name
+        val dialog = AbilityDialogFragment(view?.width!!)
+        dialog.show(parentFragmentManager, AbilityDialogFragment(view?.width!!).tag)
 
     }
 

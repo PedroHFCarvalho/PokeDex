@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.carvalho.pokedex.model.ability.Ability
 import com.carvalho.pokedex.model.evolution.chains.EvolutionChain
 import com.carvalho.pokedex.model.moves.Move
 import com.carvalho.pokedex.model.pokemon.PokeTransfer
@@ -45,7 +46,12 @@ class MainViewModel @Inject constructor(
     private val _dataMove = MutableLiveData<Response<Move>>()
     var dataMove: LiveData<Response<Move>> = _dataMove
 
+    private val _dataAbility = MutableLiveData<Response<Ability>>()
+    var dataAbility: LiveData<Response<Ability>> = _dataAbility
+
     var moveSelec: String? = null
+    var abilitySelec: String? = null
+
     var pokeTransfer: PokeTransfer? = null
 
     fun getPokemonByNumber(number: Int) {
@@ -119,6 +125,17 @@ class MainViewModel @Inject constructor(
             try {
                 val response = repository.getDataMove(name)
                 _dataMove.value = response
+            } catch (e: Exception) {
+                Log.e("Err", e.message.toString())
+            }
+        }
+    }
+
+    fun getDataAbility(name: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getDataAbility(name)
+                _dataAbility.value = response
             } catch (e: Exception) {
                 Log.e("Err", e.message.toString())
             }

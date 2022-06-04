@@ -2,21 +2,15 @@ package com.carvalho.pokedex.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.carvalho.pokedex.R
 import com.carvalho.pokedex.adapter.helpers.PokemonItemClickListener
-import com.carvalho.pokedex.adapter.helpers.PokemonSetBackgroudColor
+import com.carvalho.pokedex.adapter.helpers.PokemonSetBackgroundColor
 import com.carvalho.pokedex.databinding.CardviewPreviewBinding
 import com.carvalho.pokedex.model.pokemon.PokeTransfer
-import com.carvalho.pokedex.model.pokemon.Pokemon
 
 
 class AdapterListagem(
@@ -49,7 +43,7 @@ class AdapterListagem(
             .load(pokemon[position].sprites.front_default)
             .into(holder.binding.imPokemonCard)
 
-        val color = PokemonSetBackgroudColor.setColor(pokemon[position].types[0].type.name)
+        val color = PokemonSetBackgroundColor.setColor(pokemon[position].types[0].type.name)
         holder.binding.cvPreview.setCardBackgroundColor(getColor(context!!, color))
 
         val order = pokemon[position].id

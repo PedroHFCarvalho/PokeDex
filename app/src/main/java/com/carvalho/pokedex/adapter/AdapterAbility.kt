@@ -4,10 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.carvalho.pokedex.adapter.helpers.AbilityClickListener
+import com.carvalho.pokedex.adapter.helpers.MovesClickListener
 import com.carvalho.pokedex.databinding.CardviewAbilityBinding
 import com.carvalho.pokedex.model.pokemon.ability.PokemonAbility
 
-class AdapterAbility(val context: Context) :
+class AdapterAbility(val context: Context,private val abilityClickListener: AbilityClickListener) :
     RecyclerView.Adapter<AdapterAbility.PokemonViewHolder>() {
 
     var pokemon = emptyList<PokemonAbility>()
@@ -29,6 +31,10 @@ class AdapterAbility(val context: Context) :
         holder.binding.tvAbility.text = pokemon[position].ability.name.replaceFirstChar { it.uppercase() }
 
         holder.binding.radioButton.isChecked = pokemon[position].is_hidden
+
+        holder.itemView.setOnClickListener {
+            abilityClickListener.onAbilityClicked(pokemon[position].ability.name)
+        }
     }
 
     override fun getItemCount(): Int {

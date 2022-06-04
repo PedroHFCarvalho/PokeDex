@@ -1,5 +1,6 @@
 package com.carvalho.pokedex.data
 
+import com.carvalho.pokedex.model.ability.Ability
 import com.carvalho.pokedex.model.evolution.chains.EvolutionChain
 import com.carvalho.pokedex.model.moves.Move
 import com.carvalho.pokedex.model.pokemon.Pokemon
@@ -24,4 +25,7 @@ interface ApiService {
 
     @GET("move/{name}")
     suspend fun getDataMove(@Path("name") name: String): Response<Move>
+
+    @GET("ability/{name}")
+    suspend fun getDataAbility(@Path("name") name: String): Response<Ability>
 }

@@ -1,4 +1,4 @@
-package com.carvalho.pokedex.model.moves
+package com.carvalho.pokedex.model.commonModel
 
 import com.carvalho.pokedex.model.commonModel.NamedAPIResource
 import com.google.gson.annotations.SerializedName

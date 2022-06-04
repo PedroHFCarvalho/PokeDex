@@ -1,6 +1,8 @@
 package com.carvalho.pokedex.model.moves
 
+import com.carvalho.pokedex.model.commonModel.FlavorText
 import com.carvalho.pokedex.model.commonModel.NamedAPIResource
+import com.carvalho.pokedex.model.commonModel.VerboseEffect
 import com.google.gson.annotations.SerializedName
 
 data class Move(
@@ -19,7 +21,7 @@ data class Move(
     @SerializedName("type")
     val type: NamedAPIResource,
     @SerializedName("flavor_text_entries")
-    val flavorTextEntries: List<MoveFlavorText>,
+    val flavorTextEntries: List<FlavorText>,
     @SerializedName("effect_entries")
     val effectEntries: List<VerboseEffect>,
 )

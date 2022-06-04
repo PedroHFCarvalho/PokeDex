@@ -3,8 +3,7 @@ package com.carvalho.pokedex.adapter.helpers
 import com.carvalho.pokedex.R
 import com.carvalho.pokedex.model.pokemon.type.PokemonType
 
-class PokemonSetBackgroudColor {
-
+class PokemonSetBackgroundColor {
     companion object {
         fun setColor(type: String): Int {
             return when (type) {
