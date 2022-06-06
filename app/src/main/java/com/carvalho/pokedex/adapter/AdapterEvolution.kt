@@ -8,14 +8,13 @@ import com.bumptech.glide.Glide
 import com.carvalho.pokedex.adapter.helpers.PokemonItemClickListener
 import com.carvalho.pokedex.databinding.CardviewEvolutionBinding
 import com.carvalho.pokedex.model.pokemon.PokeTransfer
-import com.carvalho.pokedex.model.pokemon.Pokemon
 
 class AdapterEvolution(
     val context: Context,
     private val pokemonItemClickListener: PokemonItemClickListener,
 ) :
     RecyclerView.Adapter<AdapterEvolution.PokemonViewHolder>() {
-    var pokemon = emptyList<PokeTransfer?>()
+    var pokemon = mutableListOf<List<PokeTransfer?>>()
 
     class PokemonViewHolder(
         var binding: CardviewEvolutionBinding
@@ -33,34 +32,31 @@ class AdapterEvolution(
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
 
         Glide.with(context)
-            .load(pokemon[position]?.sprites?.front_default)
+            .load(pokemon[position][0]?.sprites?.front_default)
             .into(holder.binding.imPokemonOne)
 
         holder.binding.imPokemonOne.setOnClickListener {
-            pokemonItemClickListener.onPokemonClicked(pokemon[position]!!)
+            pokemonItemClickListener.onPokemonClicked(pokemon[position][0]!!)
         }
 
         Glide.with(context)
-            .load(pokemon[position + 1]?.sprites?.front_default)
+            .load(pokemon[position][1]?.sprites?.front_default)
             .into(holder.binding.imPokemonTwo)
 
         holder.binding.imPokemonTwo.setOnClickListener {
-            pokemonItemClickListener.onPokemonClicked(pokemon[position + 1]!!)
+            pokemonItemClickListener.onPokemonClicked(pokemon[position][1]!!)
         }
     }
 
     override fun getItemCount(): Int {
-        return pokemon.size - 1
+        return pokemon.size
     }
 
-    fun setList(list: List<PokeTransfer?>) {
-        var listSupport = list
-        listSupport = listSupport.distinctBy { it?.name }
-        listSupport = listSupport.sortedBy { it?.order }
+    fun setList(list: List<List<PokeTransfer?>>) {
+        val oldSize = pokemon.size
+        pokemon.addAll(list)
+        notifyItemRangeInserted(oldSize, pokemon.size)
 
-        pokemon = listSupport
-
-        notifyDataSetChanged()
     }
 
 

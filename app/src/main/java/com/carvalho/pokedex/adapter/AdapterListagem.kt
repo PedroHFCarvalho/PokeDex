@@ -36,8 +36,8 @@ class AdapterListagem(
 
         holder.binding.tvPokeomonNome.text =
             pokemon[position].name.replaceFirstChar { it.uppercase() }
-                .replace("-f", "♂")
-                .replace("-m", "♀")
+                .replace("-m", "♂")
+                .replace("-f", "♀")
 
         Glide.with(holder.itemView.context)
             .load(pokemon[position].sprites.front_default)

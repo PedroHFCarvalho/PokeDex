@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class EvolutionDetail(
     @SerializedName("item")
-    val item: NamedAPIResource,
+    val item: NamedAPIResource?,
     @SerializedName("trigger")
     val trigger: NamedAPIResource,
     @SerializedName("gender")

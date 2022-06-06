@@ -49,8 +49,8 @@ class PokemonFragment : Fragment() {
         if (pokemonSelec != null) {
             binding.tvName.text =
                 pokemonSelec?.name!!.replaceFirstChar { it.uppercase() }
-                    .replace("-f", "♂")
-                    .replace("-m", "♀")
+                    .replace("-m", "♂")
+                    .replace("-f", "♀")
             binding.imBackgroundType.setBackgroundResource(
                 PokemonSetBackgroundColor.setColor(
                     pokemonSelec?.types!![0].type.name

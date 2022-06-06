@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.carvalho.pokedex.MainViewModel
@@ -32,7 +31,7 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
     private lateinit var evolutionTo: EvolutionChain
     private lateinit var pokemonAdapter: AdapterEvolution
 
-    private var hierarchy = mutableListOf<String>()
+    private var hierarchy = mutableListOf<List<String>>()
     private var pokemonHierarchy = mutableListOf<PokeTransfer>()
 
     private var isLoading = false
@@ -114,10 +113,10 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
             setAdapterEvolution()
             val listPresentation = listDistinctByHierarchy()
 
-            if (listPresentation.size == 1 || listPresentation.isNullOrEmpty()) {
+            if (listPresentation.size == 0 || listPresentation.isNullOrEmpty()) {
                 notHasEvolution()
             }
-            pokemonAdapter.setList(listPresentation.toList())
+            pokemonAdapter.setList(listPresentation)
             isLoadingFalse()
             listPresentation.clear()
         }, 2000)
@@ -128,10 +127,17 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
         binding.tvNotEvolution.visibility = View.VISIBLE
     }
 
-    private fun listDistinctByHierarchy(): MutableList<PokeTransfer?> {
-        val listPresentation = mutableListOf<PokeTransfer?>()
+    private fun listDistinctByHierarchy(): MutableList<List<PokeTransfer?>> {
+        val listPresentation = mutableListOf<List<PokeTransfer?>>()
         hierarchy.forEach {
-            listPresentation.add(pokemonHierarchy.find { pokemon -> pokemon.name.contains(it) })
+            val presentation = mutableListOf<PokeTransfer?>()
+            it.forEach {
+                presentation.add(pokemonHierarchy.findLast { pokemon ->
+                    pokemon.name.contains(it)
+                })
+            }
+            Log.d("list", presentation.toString())
+            listPresentation.add(presentation)
         }
         pokemonHierarchy.clear()
         return listPresentation
@@ -149,51 +155,57 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
         listSpecie = null
     }
 
-    private fun getStringsInPokemon() {
-        hierarchy.forEach {
+    private fun getStringsInPokemon(list: List<String>) {
+        list.forEach {
             viewModel.getPokemonByNameForEvolution(it)
         }
     }
 
     private fun evolutionHierarchy() {
-        var support: ChainLink
+        val support: ChainLink
         hierarchy.clear()
-
         if (evolutionTo.chain.evolves_to.isNotEmpty()) {
             support = evolutionTo.chain
 
-            hierarchy.add(support.species.name)
-            Log.v("Here", "1")
-            for (one in 0 until support.evolves_to.size) {
-                support = support.evolves_to[one]
+            support.evolves_to.forEach {
+                val listEvolutionTo = mutableListOf<String>()
 
-                if (support.evolves_to.isNotEmpty()) {
-                    hierarchy.add(support.species.name)
-                    Log.v("Here", "2")
+                listEvolutionTo.add(support.species.name)
+                listEvolutionTo.add(it.species.name)
 
-                    for (two in 0 until support.evolves_to.size) {
-                        support = support.evolves_to[two]
+                hierarchy.add(listEvolutionTo)
+                getStringsInPokemon(listEvolutionTo)
 
-                        if (support.evolves_to.isNotEmpty()) {
-                            hierarchy.add(support.species.name)
-                            Log.v("Here", "3")
-                            for (three in 0..support.evolves_to.size) {
-                                hierarchy.add(support.species.name)
-                            }
-                        } else {
-                            hierarchy.add(support.species.name)
-                        }
-                    }
-                } else {
-                    hierarchy.add(support.species.name)
-                }
+                detectEvolution(it)
+
             }
-        } else {
-            hierarchy.add(evolutionTo.chain.species.name)
         }
         Log.d("Evo", hierarchy.toString())
-        getStringsInPokemon()
+
     }
+
+    private fun detectEvolution(chainLink: ChainLink): String {
+        var result = ""
+        if (chainLink.evolves_to.isNotEmpty()) {
+            chainLink.evolves_to.forEach {
+
+                val listEvolutionTo = mutableListOf<String>()
+                val evolutionTo = detectEvolution(it)
+
+                listEvolutionTo.add(chainLink.species.name)
+                listEvolutionTo.add(evolutionTo)
+
+                hierarchy.add(listEvolutionTo)
+                getStringsInPokemon(listEvolutionTo)
+
+                result = it.species.name
+            }
+        } else {
+            result = chainLink.species.name
+        }
+        return result
+    }
+
 
     private fun isLoadingTrue() {
         isLoading = true
@@ -212,7 +224,6 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
         findNavController().navigate(
             R.id.action_pokemonFragment_self
         )
-
     }
 
     private fun setProperHeightOfView() {
@@ -233,8 +244,8 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
         super.onResume()
     }
 
-
 }
+
 
 
 
