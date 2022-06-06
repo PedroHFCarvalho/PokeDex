@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +17,8 @@ import com.carvalho.pokedex.databinding.FragmentMovesBinding
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.pokemon.ability.PokemonAbility
 import com.carvalho.pokedex.model.pokemon.move.PokemonMove
+import com.carvalho.pokedex.ui.fragments.dialog.AbilityDialogFragment
+import com.carvalho.pokedex.ui.fragments.dialog.MoveDialogFragment
 
 class MovesFragment : Fragment(), MovesClickListener, AbilityClickListener {
 
@@ -79,12 +80,12 @@ class MovesFragment : Fragment(), MovesClickListener, AbilityClickListener {
         if (::pokemonAdapterAbility.isInitialized) {
             pokemonAdapterAbility.setList(listAbility)
         } else {
-            pokemonAdapterAbility = AdapterAbility(requireContext(),this)
+            pokemonAdapterAbility = AdapterAbility(requireContext(), this)
             binding.rvAbility.adapter = pokemonAdapterAbility
             pokemonAdapterAbility.setList(listAbility)
         }
         for (i in 0..listAbility.size) {
-            AdapterAbility(requireContext(),this).setList(listAbility)
+            AdapterAbility(requireContext(), this).setList(listAbility)
         }
     }
 
@@ -115,19 +116,18 @@ class MovesFragment : Fragment(), MovesClickListener, AbilityClickListener {
     override fun onMoveClicked(name: String) {
         viewModel.moveSelec = name
         val dialog = MoveDialogFragment(view?.width!!)
-        dialog.show(parentFragmentManager, MoveDialogFragment(view?.width!!).tag)
+        dialog.show(parentFragmentManager, dialog.tag)
 
     }
 
     override fun onAbilityClicked(name: String) {
         viewModel.abilitySelec = name
         val dialog = AbilityDialogFragment(view?.width!!)
-        dialog.show(parentFragmentManager, AbilityDialogFragment(view?.width!!).tag)
+        dialog.show(parentFragmentManager, dialog.tag)
 
     }
 
     override fun onResume() {
-
         setProperHeightOfView()
         super.onResume()
     }

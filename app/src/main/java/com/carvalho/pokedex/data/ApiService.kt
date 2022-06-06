@@ -5,6 +5,7 @@ import com.carvalho.pokedex.model.evolution.chains.EvolutionChain
 import com.carvalho.pokedex.model.moves.Move
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.species.PokemonSpecies
+import com.carvalho.pokedex.model.type.Types
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -28,4 +29,7 @@ interface ApiService {
 
     @GET("ability/{name}")
     suspend fun getDataAbility(@Path("name") name: String): Response<Ability>
+
+    @GET("type/{name}")
+    suspend fun getDataType(@Path("name") name: String): Response<Types>
 }

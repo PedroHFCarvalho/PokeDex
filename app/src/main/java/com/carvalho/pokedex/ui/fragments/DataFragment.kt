@@ -12,14 +12,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.carvalho.pokedex.MainViewModel
 import com.carvalho.pokedex.adapter.AdapterStatus
 import com.carvalho.pokedex.adapter.AdapterTypes
+import com.carvalho.pokedex.adapter.helpers.TypeClickListener
 import com.carvalho.pokedex.databinding.FragmentDataBinding
 import com.carvalho.pokedex.model.commonModel.FlavorText
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.pokemon.stat.PokemonStat
 import com.carvalho.pokedex.model.pokemon.type.PokemonType
+import com.carvalho.pokedex.ui.fragments.dialog.MoveDialogFragment
+import com.carvalho.pokedex.ui.fragments.dialog.TypeDialogFragment
 
 
-class DataFragment : Fragment() {
+class DataFragment : Fragment(), TypeClickListener {
 
     private lateinit var binding: FragmentDataBinding
     private val viewModel: MainViewModel by activityViewModels()
@@ -103,12 +106,12 @@ class DataFragment : Fragment() {
         if (::pokemonAdapterTypes.isInitialized) {
             pokemonAdapterTypes.setList(listTypes)
         } else {
-            pokemonAdapterTypes = AdapterTypes(requireContext())
+            pokemonAdapterTypes = AdapterTypes(requireContext(), this)
             binding.rvTypes.adapter = pokemonAdapterTypes
             pokemonAdapterTypes.setList(listTypes)
         }
         for (i in 0..listTypes.size) {
-            AdapterTypes(requireContext()).setList(listTypes)
+            AdapterTypes(requireContext(), this).setList(listTypes)
         }
     }
 
@@ -137,5 +140,11 @@ class DataFragment : Fragment() {
         setupLayoutStats()
 
         super.onStart()
+    }
+
+    override fun onTypeClicked(name: String) {
+        viewModel.typeSelec = name
+        val dialog = TypeDialogFragment(view?.width!!)
+        dialog.show(parentFragmentManager, dialog.tag)
     }
 }

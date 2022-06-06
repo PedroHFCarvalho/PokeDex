@@ -11,6 +11,7 @@ import com.carvalho.pokedex.model.moves.Move
 import com.carvalho.pokedex.model.pokemon.PokeTransfer
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.species.PokemonSpecies
+import com.carvalho.pokedex.model.type.Types
 import com.carvalho.pokedex.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -49,8 +50,12 @@ class MainViewModel @Inject constructor(
     private val _dataAbility = MutableLiveData<Response<Ability>>()
     var dataAbility: LiveData<Response<Ability>> = _dataAbility
 
+    private val _dataType = MutableLiveData<Response<Types>>()
+    var dataType: LiveData<Response<Types>> = _dataType
+
     var moveSelec: String? = null
     var abilitySelec: String? = null
+    var typeSelec: String? = null
 
     var pokeTransfer: PokeTransfer? = null
 
@@ -136,6 +141,17 @@ class MainViewModel @Inject constructor(
             try {
                 val response = repository.getDataAbility(name)
                 _dataAbility.value = response
+            } catch (e: Exception) {
+                Log.e("Err", e.message.toString())
+            }
+        }
+    }
+
+    fun getDataType(name: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getDataType(name)
+                _dataType.value = response
             } catch (e: Exception) {
                 Log.e("Err", e.message.toString())
             }

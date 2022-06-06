@@ -1,7 +1,6 @@
-package com.carvalho.pokedex.ui.fragments
+package com.carvalho.pokedex.ui.fragments.dialog
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +62,14 @@ class AbilityDialogFragment(private val width: Int) : DialogFragment() {
         }
     }
 
+    private fun clearContent() {
+        binding.tvNameAbility.text = " "
+        binding.tvDescriptionAbility.text = " "
+        binding.tvDescriptionEffect.text = " "
+    }
+
     override fun onResume() {
+        clearContent()
         recoverData()
         super.onResume()
     }

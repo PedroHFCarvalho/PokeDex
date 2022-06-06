@@ -6,6 +6,7 @@ import com.carvalho.pokedex.model.evolution.chains.EvolutionChain
 import com.carvalho.pokedex.model.moves.Move
 import com.carvalho.pokedex.model.pokemon.Pokemon
 import com.carvalho.pokedex.model.species.PokemonSpecies
+import com.carvalho.pokedex.model.type.Types
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -32,7 +33,12 @@ class Repository {
         return RetrofitInstance.api.getDataMove(name)
     }
 
-    suspend fun getDataAbility(name: String): Response<Ability>{
+    suspend fun getDataAbility(name: String): Response<Ability> {
         return RetrofitInstance.api.getDataAbility(name)
     }
+
+    suspend fun getDataType(name: String): Response<Types> {
+        return RetrofitInstance.api.getDataType(name)
+    }
+
 }

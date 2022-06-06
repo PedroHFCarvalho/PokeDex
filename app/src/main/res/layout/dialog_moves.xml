@@ -5,7 +5,7 @@
     android:id="@+id/clDialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.fragments.MoveDialogFragment">
+    tools:context=".ui.fragments.dialog.MoveDialogFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"

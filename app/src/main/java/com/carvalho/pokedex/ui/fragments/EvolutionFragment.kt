@@ -28,7 +28,6 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
     private lateinit var binding: FragmentEvolutionBinding
     private val viewModel: MainViewModel by activityViewModels()
 
-    private lateinit var evolutionTo: EvolutionChain
     private lateinit var pokemonAdapter: AdapterEvolution
 
     private var hierarchy = mutableListOf<List<String>>()
@@ -56,8 +55,8 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
         }
 
         viewModel.responseEvolution.observe(viewLifecycleOwner) {
-            evolutionTo = it.body()!!
-            evolutionHierarchy()
+            val evolutionTo = it.body()!!
+            evolutionHierarchy(evolutionTo)
         }
 
         viewModel.responsePokemonEvolution.observe(viewLifecycleOwner) {
@@ -161,12 +160,11 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
         }
     }
 
-    private fun evolutionHierarchy() {
-        val support: ChainLink
+    private fun evolutionHierarchy(evolutionTo: EvolutionChain) {
         hierarchy.clear()
-        if (evolutionTo.chain.evolves_to.isNotEmpty()) {
-            support = evolutionTo.chain
+        val support: ChainLink = evolutionTo.chain
 
+        if (support.evolves_to.isNotEmpty()) {
             support.evolves_to.forEach {
                 val listEvolutionTo = mutableListOf<String>()
 
@@ -177,11 +175,9 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
                 getStringsInPokemon(listEvolutionTo)
 
                 detectEvolution(it)
-
             }
         }
         Log.d("Evo", hierarchy.toString())
-
     }
 
     private fun detectEvolution(chainLink: ChainLink): String {
@@ -206,11 +202,9 @@ class EvolutionFragment : Fragment(), PokemonItemClickListener {
         return result
     }
 
-
     private fun isLoadingTrue() {
         isLoading = true
         binding.inLoadingEvolution.pbPaginationList.visibility = View.VISIBLE
-
     }
 
     private fun isLoadingFalse() {

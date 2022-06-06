@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.carvalho.pokedex.adapter.helpers.PokemonSetBackgroundColor
+import com.carvalho.pokedex.adapter.helpers.TypeClickListener
 import com.carvalho.pokedex.databinding.CardviewTypesBinding
 import com.carvalho.pokedex.model.pokemon.type.PokemonType
 
-class AdapterTypes(val context: Context): RecyclerView.Adapter<AdapterTypes.PokemonViewHolder>()  {
+class AdapterTypes(val context: Context, private val typeClickListener: TypeClickListener) :
+    RecyclerView.Adapter<AdapterTypes.PokemonViewHolder>() {
 
     var pokemon = emptyList<PokemonType>()
 
@@ -19,7 +21,8 @@ class AdapterTypes(val context: Context): RecyclerView.Adapter<AdapterTypes.Poke
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val binding =
             CardviewTypesBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false)
+                LayoutInflater.from(parent.context), parent, false
+            )
         return PokemonViewHolder(binding)
     }
 
@@ -27,7 +30,12 @@ class AdapterTypes(val context: Context): RecyclerView.Adapter<AdapterTypes.Poke
         val color = PokemonSetBackgroundColor.setColor(pokemon[position].type.name)
         holder.binding.cvTypes.setCardBackgroundColor(ContextCompat.getColor(context!!, color))
 
-        holder.binding.tvTypes.text = pokemon[position].type.name.replaceFirstChar {it.uppercase()}
+        holder.binding.tvTypes.text =
+            pokemon[position].type.name.replaceFirstChar { it.uppercase() }
+
+        holder.itemView.setOnClickListener {
+            typeClickListener.onTypeClicked(pokemon[position].type.name)
+        }
     }
 
     override fun getItemCount(): Int {
