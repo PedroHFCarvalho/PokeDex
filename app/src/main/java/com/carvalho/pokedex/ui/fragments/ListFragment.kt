@@ -38,7 +38,7 @@ class ListFragment : Fragment(), PokemonItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentListBinding.inflate(layoutInflater, container, false)
 
         viewModel.responsePokemon.observe(viewLifecycleOwner) {
@@ -67,7 +67,6 @@ class ListFragment : Fragment(), PokemonItemClickListener {
                 if (!isLoading) {
                     if ((visibleItemCont + pastVisibleItem) >= total) {
                         page++
-                        Log.d("Cont Page", page.toString())
                         getContentsForList()
                         includeContentsInPage()
                     }
